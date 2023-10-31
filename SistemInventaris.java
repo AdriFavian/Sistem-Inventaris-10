@@ -5,12 +5,14 @@ public class SistemInventaris {
         Scanner sc = new Scanner(System.in);
 
         String[][] userArr = new String[10][3]; // Array dua dimensi: username, password, role
+        String[][] gudangArr = new String[5][4];
         int userCount = 0;
         boolean IsLogin = false;
         boolean IsAdmin = false;
+        boolean IsStaff = false;
         String currentUser = "";
 
-        while (true) {
+        while (!IsLogin) {
             System.out.println("===================================");
             System.out.println("SELAMAT DATANG DI SISTEM INVENTARIS");
             System.out.println("===================================");
@@ -51,35 +53,62 @@ public class SistemInventaris {
                 String username = sc.next();
                 System.out.print("Password: ");
                 String password = sc.next();
-
+                
                 for (int i = 0; i < userCount; i++) {
                     if (userArr[i][0].equals(username) && userArr[i][1].equals(password)) {
                         IsLogin = true;
                         currentUser = username;
-
+                        
                         if (userArr[i][2].equals("admin")) {
                             IsAdmin = true;
+                        } else if (userArr[i][2].equals("staff")) {
+                            IsStaff = true;
                         }
-
+                        
                         break;
                     }
                 }
+                
+                while (IsAdmin) {
+                    System.out.println("\n===================================");
+                    System.out.println("          Selamat Datang           ");
+                    System.out.println("             Admin " + currentUser    );
+                    System.out.println("===================================");
 
-                if (IsLogin) {
-                    System.out.println("\n");
-                    System.out.println("       BERHASIL LOGIN !      ");
-                    System.out.println("\n");
+                    System.out.println("1. Input Barang Masuk");
+                    System.out.println("2. Input Barang Keluar");
+                    System.out.println("Pilih Menu: ");
+                    int choicee = sc.nextInt();
 
-                    if (IsAdmin) {
-                        System.out.println("Selamat datang, admin " + currentUser);
-                    } else {                        
-                        System.out.println("Selamat datang, staf " + currentUser);
-                    }
-                } else {
-                    System.out.println("\n");
-                    System.out.println("        GAGAL LOGIN !        ");
-                    System.out.println("\n");
+                    switch (choicee) {
+                        case 1:
+                            System.out.println("===================================");
+                            System.out.println("         Input Barang Masuk        ");
+                            System.out.println("===================================");
+
+                            System.out.println("Nama barang: ");
+                            String namaBarang = sc.next();
+                            System.out.println("Jumlah barang: ");
+                            int jumlahBarang = sc.nextInt();
+                            System.out.println("Tanggal barang masuk: ");
+                            String tanggalMasuk = sc.next();
+
+                            
+
+                        break;
+                    } 
+                    break;
                 }
+
+                while (IsStaff) {
+                    System.out.println("\n===================================");
+                    System.out.println("          Selamat Datang           ");
+                    System.out.println("             Staff " + currentUser    );
+                    System.out.println("===================================");
+                    break;
+                }
+
+                
             } else if (choice == 3) {
                 // Menu Tampilkan akun
                 System.out.println("===================================");
@@ -92,8 +121,10 @@ public class SistemInventaris {
             } else if (choice == 4) {
                 break;
             } else {
-                System.out.println("Pilihan tidak valid!");
+                System.out.println("===================================");
+                System.out.println("      Pilihan tidak valid!         ");
+                System.out.println("===================================");
             }
-        }
+        } sc.close();
     }
 }
