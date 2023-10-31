@@ -71,10 +71,8 @@ public class SistemInventaris {
                     System.out.println("\n");
 
                     if (IsAdmin) {
-                        // Di sini Anda dapat menambahkan logika untuk menu admin
                         System.out.println("Selamat datang, admin " + currentUser);
-                    } else {
-                        // Di sini Anda dapat menambahkan logika untuk menu staf
+                    } else {                        
                         System.out.println("Selamat datang, staf " + currentUser);
                     }
                 } else {
