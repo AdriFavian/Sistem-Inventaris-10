@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class SistemInventaris {
     public static void main(String[] args) {
@@ -108,8 +110,10 @@ public class SistemInventaris {
                                 String namaBarang = sc.next();
                                 System.out.print("Jumlah barang: ");
                                 int jumlahBarang = sc.nextInt();
-                                System.out.print("Tanggal barang masuk: ");
-                                String tanggalMasuk = sc.next();
+                                System.out.print("Masukkan tanggal barang masuk (dd/MM/yyyy): ");
+                                String input = sc.next();
+                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                                LocalDate tanggalMasuk = LocalDate.parse(input, formatter);
                                 
                                 String informasiBarangMasuk = "Nama: " + namaBarang + " Jumlah: " + jumlahBarang + " Tanggal Masuk: " + tanggalMasuk;
                                 for (int i = 0; i < gudangArr.length; i++) {
