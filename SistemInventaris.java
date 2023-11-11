@@ -79,7 +79,7 @@ public class SistemInventaris {
             }
         }
 
-        do {
+        do {//MENU UTAMA (AWAL)
             System.out.println("===================================\n");
             System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
             System.out.println("\n===================================");
