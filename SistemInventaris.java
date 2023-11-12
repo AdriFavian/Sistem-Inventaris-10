@@ -31,20 +31,26 @@ public class SistemInventaris {
             {"7", "6", "10", "3"},
         };
 
-        String[][] userData = {{"admin","mimin"},{"afifah", "fifi"},{"pasha", "pipi"},{"adri", "riri"}};    
+        String[][] userData = {{"admin","mimin","Admin"},
+                                {"afifah", "fifi", "Staff"},
+                                {"pasha", "pipi", "Staff"},
+                                {"adri", "riri", "Staff"}};    
 
-        String[][] userArr = new String[10][3]; // username, password, role
-        String[][] gudangArr = new String[100][3]; // nama, jumlah, tanggal
-
+        // String[][] userArr = new String[10][3]; // username, password, role
+        // String[][] gudangArr = new String[100][3]; // nama, jumlah, tanggal
 
         boolean login = false;
         boolean isAdmin = false;
-        boolean IsStaff = false;
+        boolean isStaff = false;
         boolean isLoop = false;
-
+        boolean exit = false;
+        
+        int mainChoice, subChoice;
+        
         int userCount = 0;
         int gudangCount = 0;
         String currentUser = "";
+        String currentRole = "";
 
         //Warna Teks
         String RESET = "\u001B[0m";
@@ -53,12 +59,13 @@ public class SistemInventaris {
         String YELLOW = "\u001B[33m";
         
         ////////////////////////////////////////////////////////////////////////////////////////////////
-        System.out.println("===================================\n");
+        System.out.println(YELLOW+"=========================================="+RESET);
         System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
-        System.out.println("\n===================================");
+        System.out.println(YELLOW+"=========================================="+RESET);
 
         //login
         while (!login) {
+            System.out.println("Silahkan login !");
             System.out.print("Masukkan Username: ");
             String inputUsername = sc.next();
             System.out.print("Masukkan Password: ");  
@@ -68,8 +75,13 @@ public class SistemInventaris {
                 if (userData[i][0].equals(inputUsername) && userData[i][1].equals(inputPassword)) {
                     System.out.println(GREEN+"Berhasil login!"+RESET);
                     login = true;
-                    if("admin".equals(inputUsername)){
+                    currentUser = inputUsername;
+                    currentRole = userData[i][2];
+
+                    if("admin".equalsIgnoreCase(inputUsername)){
                         isAdmin=true;
+                    } else if (!"admin".equalsIgnoreCase(inputUsername)){
+                        isStaff=true;
                     }
                     break;
                 }
@@ -80,20 +92,105 @@ public class SistemInventaris {
         }
 
         do {//MENU UTAMA (AWAL)
-            System.out.println("===================================\n");
+            System.out.println(YELLOW+"=========================================="+RESET);
             System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
-            System.out.println("\n===================================");
-
+            System.out.println(YELLOW+"=========================================="+RESET);
+            
             if (isAdmin) {
+                System.out.println("Sekarang Anda Berada di "+"Menu: "+GREEN+currentRole+RESET+"\n");
+                System.out.println("|1| Input Barang Masuk");
+                System.out.println("|2| Input Barang Keluar");
+                System.out.println("|3| Tampilkan Data Barang");
+                System.out.println("|4| Udpate Data Barang");
+                System.out.println("|5| Cari Barang");
+                System.out.println(YELLOW+"|9| Beralih Akun"+RESET);
+                System.out.println(RED+"|0| Keluar"+RESET);
                 
+            } else if (isStaff) {
+                System.out.println("Sekarang Anda Berada di "+"Menu: "+GREEN+currentRole+RESET+"\n");
+                System.out.println("|1| input barang rusak");
+                System.out.println("|2| Cari Barang");
+                System.out.println(YELLOW+"|9| Beralih Akun"+RESET);
+                System.out.println(RED+"|0| Keluar"+RESET);
             }
-            do {
-                //submenu
+
+            System.out.print("\nPilih Menu: ");
+            mainChoice = sc.nextInt(); 
+            isLoop = true;
+
+            do {//submenu
+                switch (mainChoice) {
+                    case 1:
+                        if (currentRole.equals("Admin")) {
+                            //input barang masuk
+                            System.out.println("ini input barang masuk");
+                        } else if (currentRole.equals("Staff")) {
+                            //input barang rusak
+                            System.out.println("ini input barang rusak");
+                        }
+                        break;
+
+                    case 2:
+                        if (currentRole.equals("Admin")) {
+                            //input barang keluar
+                            System.out.println("ini input barang keluar");
+                        } else if (currentRole.equals("Staff")) {
+                            // cari barang
+                            System.out.println("ini cari barang");
+                        }
+                        break;
+
+                    case 3:
+                        if (currentRole.equals("Admin")) {
+                            // tampilkan data barang
+                            System.out.println("ini tampilkan barang");
+                        }
+                        break;
+
+                    case 9:
+                        System.out.println(YELLOW+"=========================================="+RESET);
+                        System.out.println(GREEN+"Berhasil Logout dari " +currentRole + ": " + currentUser+RESET);
+                        System.out.println("Silahkan login !");
+                        // Kembali ke proses login
+                        boolean switchSuccess = false;
+                        while (true) {
+                            System.out.print("Masukkan Username: ");
+                            String switchUsername = sc.next();
+                            System.out.print("Masukkan Password: ");
+                            String switchPassword = sc.next();
+
+                            for (int i = 0; i < userData.length; i++) {
+                                if (userData[i][0].equals(switchUsername) && userData[i][1].equals(switchPassword)) {
+                                    currentUser = switchUsername;
+                                    currentRole = userData[i][2];
+                                    switchSuccess = true;
+                                    break;
+                                }
+                            }
+
+                            if (switchSuccess) {
+                                System.out.println(GREEN+"=== Beralih Akun Berhasil ==="+RESET);
+                                break;
+                            } else {
+                                System.out.println("Login gagal. Silahkan coba lagi.");
+                            }
+                        }
+                        break;
+
+                    case 0:
+                        System.out.println("Terimakasih ! ^_^");
+                        exit = true;
+                        break;
+
+                    default:
+                        System.out.println("Pilihan tidak valid. Silahkan coba lagi.");
+                        break;
+                    }
+                break;
             } while (isLoop);
-        } while (!keluar);    
+        } while (!exit);    
             
         
-            
             // System.out.println("1. Buat akun");
             // System.out.println("2. Login");
             // System.out.println("3. Tampilkan pengguna");
@@ -228,7 +325,7 @@ public class SistemInventaris {
             //         System.out.println("===================================");
             //         break;
             //     }
-
-         }// sc.close();
-    }
+            
+    }// sc.close();
+}
 
