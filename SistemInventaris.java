@@ -1,7 +1,4 @@
 import java.util.Scanner;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 public class SistemInventaris {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -36,9 +33,6 @@ public class SistemInventaris {
                                 {"pasha", "pipi", "Staff"},
                                 {"adri", "riri", "Staff"}};    
 
-        // String[][] userArr = new String[10][3]; // username, password, role
-        // String[][] gudangArr = new String[100][3]; // nama, jumlah, tanggal
-
         boolean login = false;
         boolean isAdmin = false;
         boolean isStaff = false;
@@ -46,7 +40,7 @@ public class SistemInventaris {
         boolean exit = false;
         
         int mainChoice, subChoice;
-        
+
         int userCount = 0;
         int gudangCount = 0;
         String currentUser = "";
@@ -58,7 +52,7 @@ public class SistemInventaris {
         String GREEN = "\u001B[32m";
         String YELLOW = "\u001B[33m";
         
-        ////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         System.out.println(YELLOW+"=========================================="+RESET);
         System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
         System.out.println(YELLOW+"=========================================="+RESET);
@@ -124,13 +118,32 @@ public class SistemInventaris {
                     case 1:
                         if (currentRole.equals("Admin")) {
                             //input barang masuk
-                            System.out.println("ini input barang masuk");
+                            System.out.println("===================================");
+                            System.out.println("         Input Barang Masuk        ");
+                            System.out.println("===================================");
+
+                            System.out.print("Berapa jenis barang yang ingin diinput: ");
+                            int jumlahInput = sc.nextInt();
+
+                            for (int k=0; k<jumlahInput; k++) {
+                                System.out.println("Data barang ke - "+(k+1));
+                                System.out.print("Masukkan nama barang: ");
+                                String namaBarang = sc.next();
+                                System.out.print("Jumlah barang: ");
+                                int jumlahBarang = sc.nextInt();
+                                System.out.print("Masukkan kode barang: ");
+                                String kodeBarang = sc.next();
+                                
+                                gudangCount++;
+                                System.out.println(GREEN+"\nData barang masuk telah disimpan.\n"+RESET);
+                            break;
+                            }
                         } else if (currentRole.equals("Staff")) {
                             //input barang rusak
                             System.out.println("ini input barang rusak");
                         }
                         break;
-
+                    //////////////////////////////////////////////////////////////////////////////////////////
                     case 2:
                         if (currentRole.equals("Admin")) {
                             //input barang keluar
@@ -170,7 +183,7 @@ public class SistemInventaris {
                             break;
                             }
                             break;
-
+                    /////////////////////////////////////////////////////////////////////////////////////////////////////               
                     case 3:
                         if (currentRole.equals("Admin")) {
                             System.out.println("DAFTAR BARANG DI RESTORAN SEAFOOD");
@@ -203,6 +216,7 @@ public class SistemInventaris {
                             }
                         }
                         break;
+                    ////////////////////////////////////////////////////////////////////////////////////////////////        
                     case 5:
                         System.out.print("Masukkan kode atau barang yang ingin dicari: ");
                         String cariBarang = sc.nextLine();
@@ -237,7 +251,7 @@ public class SistemInventaris {
                             System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
                         }
                         break;
-                        
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////    
                     case 9:
                         System.out.println(YELLOW+"=========================================="+RESET);
                         System.out.println(GREEN+"Berhasil Logout dari " +currentRole + ": " + currentUser+RESET);
@@ -269,8 +283,9 @@ public class SistemInventaris {
                             }
                         }
                         break;
-
+                    /////////////////////////////////////////////////////////////////////////////////////////////////        
                     case 0:
+                        System.out.println(YELLOW+"Anda telah Logout" +RESET);
                         System.out.println("Terimakasih ! ^_^");
                         exit = true;
                         break;
@@ -316,51 +331,6 @@ public class SistemInventaris {
             //     System.out.println("===================================");
             //     System.out.println(GREEN+"       AKUN BERHASIL DIBUAT !      "+RESET);
             //     System.out.println("===================================");
-
-            // } else if (choice == 2) {
-            //     // Menu Login
-            //     System.out.println("===================================");
-            //     System.out.println("            MASUK AKUN             ");
-            //     System.out.println("===================================");
-            //     System.out.print("Username: ");
-            //     String username = sc.next();
-            //     System.out.print("Password: ");
-            //     String password = sc.next();
-                
-            //     for (int i = 0; i < userArr.length; i++) {
-            //         if (userArr[i][0].equals(username) && userArr[i][1].equals(password)) {
-            //             login = true;
-            //             currentUser = username;
-                        
-            //             if (userArr[i][2].equals("admin")) {
-            //                 IsAdmin = true;
-            //             } else if (userArr[i][2].equals("staff")) {
-            //                 IsStaff = true;
-            //             }
-                        
-            //             break;
-            //         }
-            //     }
-                
-            // } else if (choice == 3) {
-            //     // Menu Tampilkan akun
-            //     System.out.println("===================================");
-            //     System.out.println("            DAFTAR AKUN            ");
-            //     System.out.println("===================================");
-            //     for (int i = 0; i < userCount; i++) {
-            //         System.out.println("Username: " + userArr[i][0] + 
-            //                             " Password: " + userArr[i][1] +
-            //                             " Role: " + userArr[i][2] + "\n");
-            //     }
-
-            // } else if (choice == 4) {
-            //     break;
-                
-            // } else {
-            //     System.out.println("===================================");
-            //     System.out.println(RED+"      Pilihan tidak valid!         "+RESET);
-            // }
-
 
 
             
