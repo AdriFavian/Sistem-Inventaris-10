@@ -170,6 +170,8 @@ public class SistemInventaris {
 
                             if (switchSuccess) {
                                 System.out.println(GREEN+"=== Beralih Akun Berhasil ==="+RESET);
+                                isStaff = !isStaff;
+                                isAdmin = !isAdmin;
                                 break;
                             } else {
                                 System.out.println("Login gagal. Silahkan coba lagi.");
