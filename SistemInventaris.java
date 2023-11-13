@@ -115,7 +115,8 @@ public class SistemInventaris {
             }
 
             System.out.print("\nPilih Menu: ");
-            mainChoice = sc.nextInt(); 
+            mainChoice = sc.nextInt();
+            sc.nextLine();  
             isLoop = true;
 
             do {//submenu
@@ -135,18 +136,108 @@ public class SistemInventaris {
                             //input barang keluar
                             System.out.println("ini input barang keluar");
                         } else if (currentRole.equals("Staff")) {
-                            // cari barang
-                            System.out.println("ini cari barang");
-                        }
-                        break;
+                            System.out.print("Masukkan kode atau barang yang ingin dicari: ");
+                            String cariBarang = sc.nextLine();
+                            boolean ditemukan = false;
+
+                            for (int kategori = 0; kategori < 4; kategori++) {
+                                String[] kodeArray = GudangRestoran[kategori * 3];
+                                String[] namaArray = GudangRestoran[kategori * 3 + 1];
+                                String[] JmlArray  = GudangRestoran [kategori * 3 + 2];
+
+                                String kategoriJudul = " ";
+                                if (kategori == 0) {
+                                    kategoriJudul = "DAFTAR IKAN";
+                                } else if (kategori == 1) {
+                                    kategoriJudul = "DAFTAR HIDANGAN LAUT";
+                                } else if (kategori == 2) {
+                                    kategoriJudul = "DAFTAR BUMBU DAPUR";
+                                } else if (kategori == 3) {
+                                    kategoriJudul = "DAFTAR BAHAN MINUMAN";
+                                }
+                        
+                            for (int i = 0; i < kodeArray.length; i++) {
+                                if (kodeArray[i].equalsIgnoreCase(cariBarang) || namaArray[i].equalsIgnoreCase(cariBarang)) {
+                                    System.out.println("===== " + kategoriJudul + " =====");
+                                    System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i]);
+                                    ditemukan = true;
+                                    } 
+                                }
+                            }
+                            if (!ditemukan) {
+                                System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
+                            }
+                            break;
+                            }
+                            break;
 
                     case 3:
                         if (currentRole.equals("Admin")) {
-                            // tampilkan data barang
-                            System.out.println("ini tampilkan barang");
+                            System.out.println("DAFTAR BARANG DI RESTORAN SEAFOOD");
+                            int indexNow =0;
+                            for (int kategori = 0; kategori < 4; kategori++) {
+                                String[] kodeArray = GudangRestoran[indexNow];
+                                String[] namaArray = GudangRestoran[indexNow + 1];
+                                String[] JmlArray = GudangRestoran [indexNow + 2];
+
+                                String kategoriJudul = " ";
+                                if (kategori == 0) {
+                                    kategoriJudul = "DAFTAR IKAN";
+                                } else if (kategori == 1) {
+                                    kategoriJudul = "DAFTAR HIDANGAN LAUT";
+                                } else if (kategori == 2) {
+                                    kategoriJudul = "DAFTAR BUMBU DAPUR";
+                                } else if (kategori == 3) {
+                                    kategoriJudul = "DAFTAR BAHAN MINUMAN";
+                                }
+
+                                System.out.println("===== " + kategoriJudul + " =====");
+                                System.out.printf("%-8s %-20s %-3s\n", "Kode", "Nama", "Jumlah");
+
+                                for (int  i = 0; i < kodeArray.length; i++) {
+                                    System.out.printf("%-8s %-20s %-3s\n", kodeArray[i], namaArray[i], JmlArray[i]);
+                                }
+
+                                System.out.println();
+                                indexNow += 3;
+                            }
                         }
                         break;
+                    case 5:
+                        System.out.print("Masukkan kode atau barang yang ingin dicari: ");
+                        String cariBarang = sc.nextLine();
+                        boolean ditemukan = false;
 
+                        for (int kategori = 0; kategori < 4; kategori++) {
+                            String[] kodeArray = GudangRestoran[kategori * 3];
+                            String[] namaArray = GudangRestoran[kategori * 3 + 1];
+                            String[] JmlArray  = GudangRestoran [kategori * 3 + 2];
+
+                            String kategoriJudul = " ";
+                            if (kategori == 0) {
+                                kategoriJudul = "DAFTAR IKAN";
+                            } else if (kategori == 1) {
+                                kategoriJudul = "DAFTAR HIDANGAN LAUT";
+                            } else if (kategori == 2) {
+                                kategoriJudul = "DAFTAR BUMBU DAPUR";
+                            } else if (kategori == 3) {
+                                kategoriJudul = "DAFTAR BAHAN MINUMAN";
+                            }
+
+                    
+                        for (int i = 0; i < kodeArray.length; i++) {
+                            if (kodeArray[i].equalsIgnoreCase(cariBarang) || namaArray[i].equalsIgnoreCase(cariBarang)) {
+                                System.out.println("===== " + kategoriJudul + " =====");
+                                System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i]);
+                                ditemukan = true;
+                                } 
+                            }
+                        }
+                        if (!ditemukan) {
+                            System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
+                        }
+                        break;
+                        
                     case 9:
                         System.out.println(YELLOW+"=========================================="+RESET);
                         System.out.println(GREEN+"Berhasil Logout dari " +currentRole + ": " + currentUser+RESET);
