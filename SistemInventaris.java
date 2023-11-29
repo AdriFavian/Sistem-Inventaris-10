@@ -2,18 +2,19 @@ import java.util.Arrays;
 import java.util.Scanner;
 public class SistemInventaris {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        
-        String[][] userData = {{"admin","mimin","Admin"},
-                                {"afifah", "fifi", "Staff"},
-                                {"pasha", "pipi", "Staff"},
-                                {"adri", "riri", "Staff"}};    
+        Scanner sc = new Scanner(System.in); 
 
         boolean login = false;
         boolean isAdmin = false;
         boolean isStaff = false;
         boolean isLoop = false;
         boolean exit = false;
+
+        //Warna Teks
+        String RESET = "\u001B[0m";
+        String RED = "\u001B[31m";
+        String GREEN = "\u001B[32m";
+        String YELLOW = "\u001B[33m";
         
         int mainChoice;
         // int subChoice;
@@ -22,12 +23,6 @@ public class SistemInventaris {
         String currentUser = "";
         String currentRole = "";
 
-        //Warna Teks
-        String RESET = "\u001B[0m";
-        String RED = "\u001B[31m";
-        String GREEN = "\u001B[32m";
-        String YELLOW = "\u001B[33m";
-        
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         System.out.println(YELLOW+"=========================================="+RESET);
         System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
@@ -307,35 +302,34 @@ public class SistemInventaris {
                         cariBarang();
                     ///////////////////////////////////////////////////////////////////////////////////////////////////    
                     case 9:
-                        // System.out.println(YELLOW+"=========================================="+RESET);
-                        // System.out.println(GREEN+"Berhasil Logout dari " +currentRole + ": " + currentUser+RESET);
-                        // System.out.println("Silahkan login !");
-                        // // Kembali ke proses login
-                        // boolean switchSuccess = false;
-                        // while (true) {
-                        //     System.out.print("Masukkan Username: ");
-                        //     String switchUsername = sc.next();
-                        //     System.out.print("Masukkan Password: ");
-                        //     String switchPassword = sc.next();
-
-                        //     for (int i = 0; i < userData.length; i++) {
-                        //         if (userData[i][0].equals(switchUsername) && userData[i][1].equals(switchPassword)) {
-                        //             currentUser = switchUsername;
-                        //             currentRole = userData[i][2];
-                        //             switchSuccess = true;
-                        //             break;
-                        //         }
-                        //     }
-
-                        //     if (switchSuccess) {
-                        //         System.out.println(GREEN+"=== Beralih Akun Berhasil ==="+RESET);
-                        //         isStaff = !isStaff;
-                        //         isAdmin = !isAdmin;
-                        //         break;
-                        //     } else {
-                        //         System.out.println("Login gagal. Silahkan coba lagi.");
-                        //     }
-                        // }
+                    System.out.println(YELLOW+"=========================================="+RESET);
+                    System.out.println(GREEN+"Berhasil Logout dari " +currentRole + ": " + currentUser+RESET);
+                    System.out.println("Silahkan login !");
+                    boolean switchSuccess = false;
+                        while (true) {
+                            System.out.print("Masukkan Username: ");
+                            String switchUsername = sc.next();
+                            System.out.print("Masukkan Password: ");
+                            String switchPassword = sc.next();
+                
+                            for (int i = 0; i < userData.length; i++) {
+                                if (userData[i][0].equals(switchUsername) && userData[i][1].equals(switchPassword)) {
+                                    currentUser = switchUsername;
+                                    currentRole = userData[i][2];
+                                    switchSuccess = true;
+                                    break;
+                                }
+                            }
+                
+                            if (switchSuccess) {
+                                System.out.println(GREEN+"=== Beralih Akun Berhasil ==="+RESET);
+                                isStaff = !isStaff;
+                                isAdmin = !isAdmin;
+                                break;
+                            } else {
+                                System.out.println("Login gagal. Silahkan coba lagi.");
+                            }
+                        }
                         break;
                     /////////////////////////////////////////////////////////////////////////////////////////////////        
                     case 0:
@@ -350,10 +344,18 @@ public class SistemInventaris {
                     }
                 break;
             } while (isLoop);
-        } while (!exit);                
-    }
+        } while (!exit);     sc.close();            
+    } 
+ //////////////////////////////////////////////////////////////////////////
 
     // FUNGSI
+    static String[][] userData = {
+        {"admin","mimin","Admin"},
+        {"afifah", "fifi", "Staff"},
+        {"pasha", "pipi", "Staff"},
+        {"adri", "riri", "Staff"}
+    };   
+
     static String[][] GudangRestoran= {
         //Daftar ikan
         {"I-001", "I-002", "I-003", "I-004", "I-005", "I-006"},
@@ -403,7 +405,7 @@ public class SistemInventaris {
         }
         if (!ditemukan) {
             System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
-        }
+        } sc.close();
     }
 
     // Fungsi untuk menampilkan judul kategori
@@ -422,4 +424,4 @@ public class SistemInventaris {
         }
     }
     // end of program
-}
+} 
