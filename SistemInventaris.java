@@ -1,74 +1,6 @@
 import java.util.Arrays;
 import java.util.Scanner;
 public class SistemInventaris {
-    static String[][] GudangRestoran= {
-            //Daftar ikan
-            {"I-001", "I-002", "I-003", "I-004", "I-005", "I-006"},
-            {"Patin", "Kakap", "Bawal", "Kerapu", "Gurame", "Bandeng"},
-            {"5", "8", "7", "5", "4", "3"},
-
-            // Daftar Hidangan laut
-            {"H-001", "H-002", "H-003", "H-004", "H-005"},
-            {"Udang", "Cumi", "Kepiting", "Babycrap", "Kerang" },
-            {"8", "7", "5", "7", "6"},
-
-            //Daftar Bumbu Dapur
-            {"B-001", "B-002", "B-003", "B-004", "B-005", "B-006", "B-007", "B-008", "B-009", 
-            "B-010", "B-011", "B-012", "B-013", "B-014", "B-015", "B-016", "B-017", "B-018"},
-            {"Jeruk Nipis", "Lemon", "Bawang Putih", "Bawang Merah", "Merica","Garam", "Minyak Goreng", 
-            "Saos Tiram", "Kecap manis", "Kecap Asin", "Saos Tomat", "Saos sambal", "Jahe", "Kunyit", 
-            "Lengkuas", "Serai", "Daun jeruk", "Daun kemangi"},
-            {"1", "3", "5", "7", "4", "9", "10", "5", "6", "4", "7", "8", "11", "7", "8", "17", "5", "9"},
-
-            //Daftar Bahan Minuman
-            {"M-001", "M-002", "M-003", "M-004"},
-            {"Teh", "Lemon", "Air putih", "Es Batu"},
-            {"7", "6", "10", "3"},
-        };
-
-
-    // Fungsi untuk mencari barang
-    public static void cariBarang() {        
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Masukkan kode atau barang yang ingin dicari: ");
-        String cariBarang = sc.nextLine();
-        boolean ditemukan = false;
-
-        for (int kategori = 0; kategori < 4; kategori++) {
-            String[] kodeArray = GudangRestoran[kategori * 3];
-            String[] namaArray = GudangRestoran[kategori * 3 + 1];
-            String[] JmlArray = GudangRestoran[kategori * 3 + 2];
-
-            String kategoriJudul = JenisJudul(kategori);
-            for (int i = 0; i < kodeArray.length; i++) {
-                if (kodeArray[i].equalsIgnoreCase(cariBarang) || namaArray[i].equalsIgnoreCase(cariBarang)) {
-                    System.out.println("\n===== " + kategoriJudul + " =====");
-                    System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i]);
-                    ditemukan = true;
-                }
-            }
-        }
-        if (!ditemukan) {
-            System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
-        }
-    }
-
-    // Fungsi untuk menampilkan judul kategori
-    public static String JenisJudul(int kategori) {
-        switch (kategori) {
-            case 0:
-                return "DAFTAR IKAN";
-            case 1:
-                return "DAFTAR HIDANGAN LAUT";
-            case 2:
-                return "DAFTAR BUMBU DAPUR";
-            case 3:
-                return "DAFTAR BAHAN MINUMAN";
-            default:
-                return "";
-        }
-    }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         
@@ -375,35 +307,35 @@ public class SistemInventaris {
                         cariBarang();
                     ///////////////////////////////////////////////////////////////////////////////////////////////////    
                     case 9:
-                        System.out.println(YELLOW+"=========================================="+RESET);
-                        System.out.println(GREEN+"Berhasil Logout dari " +currentRole + ": " + currentUser+RESET);
-                        System.out.println("Silahkan login !");
-                        // Kembali ke proses login
-                        boolean switchSuccess = false;
-                        while (true) {
-                            System.out.print("Masukkan Username: ");
-                            String switchUsername = sc.next();
-                            System.out.print("Masukkan Password: ");
-                            String switchPassword = sc.next();
+                        // System.out.println(YELLOW+"=========================================="+RESET);
+                        // System.out.println(GREEN+"Berhasil Logout dari " +currentRole + ": " + currentUser+RESET);
+                        // System.out.println("Silahkan login !");
+                        // // Kembali ke proses login
+                        // boolean switchSuccess = false;
+                        // while (true) {
+                        //     System.out.print("Masukkan Username: ");
+                        //     String switchUsername = sc.next();
+                        //     System.out.print("Masukkan Password: ");
+                        //     String switchPassword = sc.next();
 
-                            for (int i = 0; i < userData.length; i++) {
-                                if (userData[i][0].equals(switchUsername) && userData[i][1].equals(switchPassword)) {
-                                    currentUser = switchUsername;
-                                    currentRole = userData[i][2];
-                                    switchSuccess = true;
-                                    break;
-                                }
-                            }
+                        //     for (int i = 0; i < userData.length; i++) {
+                        //         if (userData[i][0].equals(switchUsername) && userData[i][1].equals(switchPassword)) {
+                        //             currentUser = switchUsername;
+                        //             currentRole = userData[i][2];
+                        //             switchSuccess = true;
+                        //             break;
+                        //         }
+                        //     }
 
-                            if (switchSuccess) {
-                                System.out.println(GREEN+"=== Beralih Akun Berhasil ==="+RESET);
-                                isStaff = !isStaff;
-                                isAdmin = !isAdmin;
-                                break;
-                            } else {
-                                System.out.println("Login gagal. Silahkan coba lagi.");
-                            }
-                        }
+                        //     if (switchSuccess) {
+                        //         System.out.println(GREEN+"=== Beralih Akun Berhasil ==="+RESET);
+                        //         isStaff = !isStaff;
+                        //         isAdmin = !isAdmin;
+                        //         break;
+                        //     } else {
+                        //         System.out.println("Login gagal. Silahkan coba lagi.");
+                        //     }
+                        // }
                         break;
                     /////////////////////////////////////////////////////////////////////////////////////////////////        
                     case 0:
@@ -420,4 +352,74 @@ public class SistemInventaris {
             } while (isLoop);
         } while (!exit);                
     }
+
+    // FUNGSI
+    static String[][] GudangRestoran= {
+        //Daftar ikan
+        {"I-001", "I-002", "I-003", "I-004", "I-005", "I-006"},
+        {"Patin", "Kakap", "Bawal", "Kerapu", "Gurame", "Bandeng"},
+        {"5", "8", "7", "5", "4", "3"},
+
+        // Daftar Hidangan laut
+        {"H-001", "H-002", "H-003", "H-004", "H-005"},
+        {"Udang", "Cumi", "Kepiting", "Babycrap", "Kerang" },
+        {"8", "7", "5", "7", "6"},
+
+        //Daftar Bumbu Dapur
+        {"B-001", "B-002", "B-003", "B-004", "B-005", "B-006", "B-007", "B-008", "B-009", 
+        "B-010", "B-011", "B-012", "B-013", "B-014", "B-015", "B-016", "B-017", "B-018"},
+        {"Jeruk Nipis", "Lemon", "Bawang Putih", "Bawang Merah", "Merica","Garam", "Minyak Goreng", 
+        "Saos Tiram", "Kecap manis", "Kecap Asin", "Saos Tomat", "Saos sambal", "Jahe", "Kunyit", 
+        "Lengkuas", "Serai", "Daun jeruk", "Daun kemangi"},
+        {"1", "3", "5", "7", "4", "9", "10", "5", "6", "4", "7", "8", "11", "7", "8", "17", "5", "9"},
+
+        //Daftar Bahan Minuman
+        {"M-001", "M-002", "M-003", "M-004"},
+        {"Teh", "Lemon", "Air putih", "Es Batu"},
+        {"7", "6", "10", "3"},
+    };
+
+
+    // Fungsi untuk mencari barang
+    public static void cariBarang() {        
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Masukkan kode atau barang yang ingin dicari: ");
+        String cariBarang = sc.nextLine();
+        boolean ditemukan = false;
+
+        for (int kategori = 0; kategori < 4; kategori++) {
+            String[] kodeArray = GudangRestoran[kategori * 3];
+            String[] namaArray = GudangRestoran[kategori * 3 + 1];
+            String[] JmlArray = GudangRestoran[kategori * 3 + 2];
+
+            String kategoriJudul = JenisJudul(kategori);
+            for (int i = 0; i < kodeArray.length; i++) {
+                if (kodeArray[i].equalsIgnoreCase(cariBarang) || namaArray[i].equalsIgnoreCase(cariBarang)) {
+                    System.out.println("\n===== " + kategoriJudul + " =====");
+                    System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i]);
+                    ditemukan = true;
+                }
+            }
+        }
+        if (!ditemukan) {
+            System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
+        }
+    }
+
+    // Fungsi untuk menampilkan judul kategori
+    public static String JenisJudul(int kategori) {
+        switch (kategori) {
+            case 0:
+                return "DAFTAR IKAN";
+            case 1:
+                return "DAFTAR HIDANGAN LAUT";
+            case 2:
+                return "DAFTAR BUMBU DAPUR";
+            case 3:
+                return "DAFTAR BAHAN MINUMAN";
+            default:
+                return "";
+        }
+    }
+    // end of program
 }
