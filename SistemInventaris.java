@@ -28,7 +28,7 @@ public class SistemInventaris {
 
 
     // Fungsi untuk mencari barang
-    public static void cariBarang() {
+    public static void cariBarang() {        
         Scanner sc = new Scanner(System.in);
         System.out.print("Masukkan kode atau barang yang ingin dicari: ");
         String cariBarang = sc.nextLine();
@@ -42,7 +42,7 @@ public class SistemInventaris {
             String kategoriJudul = JenisJudul(kategori);
             for (int i = 0; i < kodeArray.length; i++) {
                 if (kodeArray[i].equalsIgnoreCase(cariBarang) || namaArray[i].equalsIgnoreCase(cariBarang)) {
-                    System.out.println("===== " + kategoriJudul + " =====");
+                    System.out.println("\n===== " + kategoriJudul + " =====");
                     System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i]);
                     ditemukan = true;
                 }
@@ -84,10 +84,10 @@ public class SistemInventaris {
         boolean isLoop = false;
         boolean exit = false;
         
-        int mainChoice, subChoice;
-
-        int userCount = 0;
-        int gudangCount = 0;
+        int mainChoice;
+        // int subChoice;
+        // int userCount = 0;
+        // int gudangCount = 0;
         String currentUser = "";
         String currentRole = "";
 
@@ -419,98 +419,6 @@ public class SistemInventaris {
                     }
                 break;
             } while (isLoop);
-        } while (!exit);    
-            
-        
-            // System.out.println("1. Buat akun");
-            // System.out.println("2. Login");
-            // System.out.println("3. Tampilkan pengguna");
-            // System.out.println("4. Keluar");
-            // System.out.print("\nPilih Menu: ");
-            // int choice = sc.nextInt();
-            
-            // if (choice == 1) {
-            //     // Menu Buat Akun
-            //     System.out.println("===================================");
-            //     System.out.println("             BUAT AKUN              ");
-            //     System.out.println("===================================");
-            //     System.out.print("Username: ");
-            //     String username = sc.next();
-            //     System.out.print("Password: ");
-            //     String password = sc.next();
-            //     System.out.print("Role (staff/admin): ");
-            //     String role = sc.next();
-                
-            //     for (int l=0; l< userArr.length; l++) {
-            //         if (userArr[l][0] == null) {
-            //             userArr[l][0] = username;
-            //             userArr[l][1] = password;
-            //             userArr[l][2] = role;
-            //             userCount++;
-            //             break; 
-            //         }
-            //     }
-
-            //     System.out.println("===================================");
-            //     System.out.println(GREEN+"       AKUN BERHASIL DIBUAT !      "+RESET);
-            //     System.out.println("===================================");
-
-
-            
-            // //masuk menu
-            // while (IsAdmin) {
-            //         System.out.println("\n===================================");
-            //         System.out.println("          Selamat Datang           ");
-            //         System.out.println("             Admin " + currentUser    );
-            //         System.out.println("===================================");
-
-            //         System.out.println("1. Input Barang Masuk");
-            //         System.out.println("2. Input Barang Keluar");
-            //         System.out.print("\nPilih Menu: ");
-            //         int choicee = sc.nextInt();
-
-            //         switch (choicee) {
-            //             case 1:
-            //                 System.out.println("===================================");
-            //                 System.out.println("         Input Barang Masuk        ");
-            //                 System.out.println("===================================");
-
-            //                 System.out.print("Berapa jenis barang yang ingin diinput: ");
-            //                 int jumlahInput = sc.nextInt();
-
-            //                 for (int k=0; k<jumlahInput; k++) {
-            //                     System.out.println("Data barang ke - "+(k+1));
-            //                     System.out.print("Nama barang: ");
-            //                     String namaBarang = sc.next();
-            //                     System.out.print("Jumlah barang: ");
-            //                     int jumlahBarang = sc.nextInt();
-            //                     System.out.print("Masukkan tanggal barang masuk (dd/MM/yyyy): ");
-            //                     String input = sc.next();
-            //                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            //                     LocalDate tanggalMasuk = LocalDate.parse(input, formatter);
-                                
-            //                     String informasiBarangMasuk = "Nama: " + namaBarang + " Jumlah: " + jumlahBarang + " Tanggal Masuk: " + tanggalMasuk;
-            //                     for (int i = 0; i < gudangArr.length; i++) {
-            //                         if (gudangArr[i][0] == null) {
-            //                             gudangArr[i][0] = informasiBarangMasuk;
-            //                             gudangCount++;
-            //                             break; 
-            //                         }
-            //                     }
-            //                     System.out.println("\nData barang masuk telah disimpan.\n");
-            //                 }
-            //             break;
-            //         } 
-            //         break;
-            //     }
-
-            //     while (IsStaff) {
-            //         System.out.println("\n===================================");
-            //         System.out.println("          Selamat Datang           ");
-            //         System.out.println("             Staff " + currentUser    );
-            //         System.out.println("===================================");
-            //         break;
-            //     }
-            
-    }// sc.close();
+        } while (!exit);                
+    }
 }
