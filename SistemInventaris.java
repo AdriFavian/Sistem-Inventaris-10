@@ -71,7 +71,6 @@ public class SistemInventaris {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         
         String[][] userData = {{"admin","mimin","Admin"},
                                 {"afifah", "fifi", "Staff"},
