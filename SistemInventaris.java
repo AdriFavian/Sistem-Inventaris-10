@@ -180,49 +180,138 @@ public static void cariBarang() {
                     
                 case 2:
                     if (currentRole.equals("Admin")) {
-                        System.out.println(YELLOW+"=========================================="+RESET);
-                        System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
-                        System.out.println(YELLOW+"=========================================="+RESET);
-                        System.out.println("Sekarang Anda Berada di "+"Submenu:"+GREEN+" Input Data Barang Masuk dan Keluar"+RESET);
-                        System.out.println();
-                        System.out.println("|1| Input Data Barang Masuk");
-                        System.out.println("|2| Input Data Barang Keluar");
-                        System.out.println(RED + "|9| Keluar" + RESET);
-                        System.out.println();
-                        System.out.print("Pilih Menu: ");
-                        int userChoice = sc.nextInt();
+                        boolean konfirmasiUser = false;
+                        do {
+                            System.out.println(YELLOW+"=========================================="+RESET);
+                            System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
+                            System.out.println(YELLOW+"=========================================="+RESET);
+                            System.out.println("Sekarang Anda Berada di "+"Submenu:"+GREEN+" Input Data Barang Masuk dan Keluar"+RESET);
+                            System.out.println();
+                            System.out.println("|1| Input Data Barang Masuk");
+                            System.out.println("|2| Input Data Barang Keluar");
+                            System.out.println(RED + "|0| Keluar" + RESET);
+                            System.out.println();
+                            System.out.print("Pilih Menu: ");
+                            int userChoice = sc.nextInt();
 
-                        switch (userChoice) {
-                            case 1:
+                            switch (userChoice) {
+                                case 1:
+                                    sc.nextLine();
+                                    boolean ditemukan = false;
+                                    boolean konfirmasi = false;
+                                    do {
+                                        System.out.print("Masukkan berapa barang yang ingin Anda input masuk:");
+                                        int jumlahBarangInput = sc.nextInt();
+                                        sc.nextLine();
+
+                                        for (int j =0; j <jumlahBarangInput; j++) {
+                                            System.out.print("Masukkan kode atau nama barang: ");
+                                            String dataBarang = sc.nextLine();
+
+                                            ditemukan = false;
+
+                                            for (int kategori = 0; kategori < 4; kategori++) {
+                                                String[] kodeArray = GudangRestoran[kategori * 4];
+                                                String[] namaArray = GudangRestoran[kategori * 4 + 1];
+                                                String[] JmlArray = GudangRestoran[kategori * 4 + 2];
+                                                String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
+
+                                                String kategoriJudul = JenisJudul(kategori);
+                                                for (int i = 0; i < kodeArray.length; i++) {
+                                                    if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
+                                                        System.out.println("\n===== " + kategoriJudul + " =====");
+                                                        System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
+
+                                                        // Menambah jumlah barang
+                                                        System.out.print("Masukkan jumlah barang yang ingin ditambahkan: ");
+                                                        int jumlahTambah = sc.nextInt();
+                                                        int jumlahSebelum = Integer.parseInt(JmlArray[j]);
+                                                        int jumlahSetelah = jumlahSebelum + jumlahTambah;
+                                                        JmlArray[j] = String.valueOf(jumlahSetelah);
+
+                                                        System.out.println("Jumlah barang berhasil ditambahkan.");
+                                                        ditemukan = true;
+                                                    }
+                                                }
+                                            }
+                                            if (!ditemukan) {
+                                                System.out.println("Barang dengan kode atau nama " + dataBarang + " tidak ditemukan.");
+                                            }
+
+                                            
+                                            sc.nextLine();
+                                            if (jumlahBarangInput - j == 1) {
+                                                konfirmasi = true;
+                                            }
+                                            }
+
+                                        } while (!konfirmasi);
+                                        break;
+
+                                case 2:
                                 sc.nextLine();
-                                System.out.print("Masukkan kode barang atau nama barang dalam gudang: ");
-                                String userInput = sc.nextLine();
-                                boolean ditemukan = false;
+                                ditemukan = false;
+                                konfirmasi = false;
 
-                                for (int kategori = 0; kategori < 4; kategori++) {
-                                    String[] kodeArray = GudangRestoran[kategori * 4];
-                                    String[] namaArray = GudangRestoran[kategori * 4 + 1];
-                                    String[] JmlArray = GudangRestoran[kategori * 4 + 2];
-                                    String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
+                                    do {
+                                        System.out.print("Masukkan berapa barang yang ingin Anda input keluar:");
+                                        int jumlahBarangInput = sc.nextInt();
+                                        sc.nextLine();
 
-                                    for (int i = 0; i < kodeArray.length; i++) {
-                                        if (kodeArray[i].equalsIgnoreCase(userInput) || namaArray[i].equalsIgnoreCase(userInput)) {
-                                            System.out.println("Berikut Data Barang Saat Ini: ");
-                                            System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
-                                            ditemukan = true;
-                                        }
-                                    }
-                                    
-                                }
-                                if (!ditemukan) {
-                                    System.out.println("Barang dengan kode atau nama " + userInput + " tidak ditemukan.");
-                                    }
-                                
+                                        for (int j =0; j <jumlahBarangInput; j++) {
+                                            System.out.print("Masukkan kode atau nama barang: ");
+                                            String dataBarang = sc.nextLine();
+
+                                            ditemukan = false;
+
+                                            for (int kategori = 0; kategori < 4; kategori++) {
+                                                String[] kodeArray = GudangRestoran[kategori * 4];
+                                                String[] namaArray = GudangRestoran[kategori * 4 + 1];
+                                                String[] JmlArray = GudangRestoran[kategori * 4 + 2];
+                                                String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
+
+                                                String kategoriJudul = JenisJudul(kategori);
+                                                for (int i = 0; i < kodeArray.length; i++) {
+                                                    if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
+                                                        System.out.println("\n===== " + kategoriJudul + " =====");
+                                                        System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
+
+                                                        // Mengurangi jumlah barang
+                                                        System.out.print("Masukkan jumlah barang yang ingin dikurangi: ");
+                                                        int jumlahKurang = sc.nextInt();
+                                                        int jumlahSebelum = Integer.parseInt(JmlArray[j]);
+                                                        int jumlahSetelah = jumlahSebelum - jumlahKurang;
+                                                        JmlArray[j] = String.valueOf(jumlahSetelah);
+
+                                                        if (jumlahSebelum > jumlahKurang) {
+                                                            System.out.println("Mohon maaf, jumlah barang yang ingin dikurangi tidak mencukupi.");
+                                                            break;
+                                                        }
+
+                                                        System.out.println("Jumlah barang berhasil dikurangi.");
+                                                        ditemukan = true;
+                                                    }
+                                                }
+                                            }
+                                            if (!ditemukan) {
+                                                System.out.println("Barang dengan kode atau nama " + dataBarang + " tidak ditemukan.");
+                                            }
+                                            
+                                            sc.nextLine();
+                                            if (jumlahBarangInput - j == 1) {
+                                                konfirmasi = true;
+                                            }
+                                            }
+
+                                        } while (!konfirmasi);
+                                        break;
+
+                                case 0:
+                                konfirmasiUser = true;
                                 break;
-
-                            case 2:
-                            case 9:
-                        }
+                            }
+                        } while (!konfirmasiUser);
+                        
 
                     } else if (currentRole.equals("Staff")) {
                         System.out.print("Masukkan kode atau barang yang ingin dicari: ");
