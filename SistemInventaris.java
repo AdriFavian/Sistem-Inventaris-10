@@ -1,5 +1,7 @@
-
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
+
 public class SistemInventaris {
     static String[][] GudangRestoran= {
             //Daftar ikan
@@ -29,51 +31,6 @@ public class SistemInventaris {
             {"buah", "kg", "galon", "box"},
         };
     
-    // Fungsi untuk menampilkan judul kategori
-    public static String JenisJudul(int namaJudul) {
-        switch (namaJudul) {
-            case 0:
-                return "DAFTAR IKAN";
-            case 1:
-                return "DAFTAR HIDANGAN LAUT";
-            case 2:
-                return "DAFTAR BUMBU DAPUR";
-            case 3:
-                return "DAFTAR BAHAN MINUMAN";
-            default:
-                return "";
-        }
-    }
-
-// Fungsi untuk mencari barang
-public static void cariBarang() {        
-    Scanner sc = new Scanner(System.in);
-    System.out.print("Masukkan kode atau barang yang ingin dicari: ");
-    String cariBarang = sc.nextLine();
-    boolean ditemukan = false;
-
-    for (int kategori = 0; kategori < 4; kategori++) {
-        String[] kodeArray = GudangRestoran[kategori * 4];
-        String[] namaArray = GudangRestoran[kategori * 4 + 1];
-        String[] JmlArray = GudangRestoran[kategori * 4 + 2];
-        String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
-
-        String kategoriJudul = JenisJudul(kategori);
-        for (int i = 0; i < kodeArray.length; i++) {
-            if (kodeArray[i].equalsIgnoreCase(cariBarang) || namaArray[i].equalsIgnoreCase(cariBarang)) {
-                System.out.println("\n===== " + kategoriJudul + " =====");
-                System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
-                ditemukan = true;
-            }
-        }
-    }
-    if (!ditemukan) {
-        System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
-    } 
-
-    sc.close();
-}
-
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -169,12 +126,25 @@ public static void cariBarang() {
 
             do {//submenu
                 switch (mainChoice) {
-                    case 1:
+                case 1:
                     if (currentRole.equalsIgnoreCase("Admin")) {
                         //Input data Barang ke Master
+                        System.out.print("Masukkan kode baru: ");
+                        String newKode = sc.next();
+                        System.out.print("Masukkan nama baru: ");
+                        String newNama = sc.next();
+                        sc.nextLine();
+                        System.out.print("Masukkan jumlah baru: ");
+                        String newJumlah = sc.next();
+                        System.out.print("Masukkan satuan baru: ");
+                        String newSatuan = sc.next();
+
+                        inputData(newKode, newNama, newJumlah, newSatuan);
+                        break;
                         
                     } else if (currentRole.equals("Staff")) {
                         //Input data barang rusak
+                        break;
                     }
                     //////////////////////////////////////////////////////////////////////////////////////////
                     
@@ -314,28 +284,7 @@ public static void cariBarang() {
                         
 
                     } else if (currentRole.equals("Staff")) {
-                        System.out.print("Masukkan kode atau barang yang ingin dicari: ");
-                        String cariBarang = sc.nextLine();
-                        boolean ditemukan = false;
-
-                        for (int kategori = 0; kategori < 4; kategori++) {
-                            String[] kodeArray = GudangRestoran[kategori * 4];
-                            String[] namaArray = GudangRestoran[kategori * 4 + 1];
-                            String[] JmlArray = GudangRestoran[kategori * 4 + 2];
-                            String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
-
-                            String kategoriJudul = JenisJudul(kategori);
-                            for (int i = 0; i < kodeArray.length; i++) {
-                                if (kodeArray[i].equalsIgnoreCase(cariBarang) || namaArray[i].equalsIgnoreCase(cariBarang)) {
-                                    System.out.println("\n===== " + kategoriJudul + " =====");
-                                    System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
-                                    ditemukan = true;
-                                }
-                            }
-                        }
-                        if (!ditemukan) {
-                            System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
-                        } 
+                        
 
                         }
                         break;
@@ -344,11 +293,52 @@ public static void cariBarang() {
                     /////////////////////////////////////////////////////////////////////////////////////////////////////               
                     case 3:
                         if (currentRole.equals("Admin")) {
+                            // update data barang
+                            // Dapatkan input dari pengguna untuk mencari nama atau kode
+                            System.out.print("Masukkan nama atau kode item yang akan diupdate: ");
+                            String searchTerm = sc.nextLine();
+                    
+                            // Pilih jenis update
+                            System.out.println("Pilih jenis update:");
+                            System.out.println("1. Kode");
+                            System.out.println("2. Nama Barang");
+                            System.out.println("3. Satuan Barang");
+                            System.out.print("Masukkan pilihan (1/2/3): ");
+                            int choice = sc.nextInt();
+                    
+                            // Cari item dan update informasinya
+                            boolean itemDitemukan = updateItem(searchTerm, choice, sc);
+                    
+                            // Tampilkan array yang sudah diupdate
+                            if (itemDitemukan) {
+                                System.out.println("Data berhasil diupdate:");
+                                for (int kategori = 0; kategori < 4; kategori++) {
+                                    String[] kodeArray = GudangRestoran[kategori * 4];
+                                    String[] namaArray = GudangRestoran[kategori * 4 + 1];
+                                    String[] JmlArray = GudangRestoran[kategori * 4 + 2];
+                                    String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
 
+                                    
+                                    String kategoriJudul = JenisJudul(kategori);
+                                    System.out.println("========================" + kategoriJudul + "=========================");
+                                    System.out.println("=====================================================================");
+                                    System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan     |");
+                                    System.out.println("=====================================================================");
+                                    for (int i =0; i<kodeArray.length; i++) {
+                                        System.out.printf("| %-6s | %-23s | %-13.5s | %-14.5s |%n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i]);
+                                        }
+
+                                    System.out.println("=====================================================================");
+                                    System.out.println();
+                                }
+                                } else 
+                                System.out.println("Item tidak ditemukan.");
+                                break;
+                                
                         } else if (currentRole.equals("Staff")) {
 
                         }
-
+                        
                     ////////////////////////////////////////////////////////////////////////////////////////////////    
                     case 4:
                         if (currentRole.equals("Admin")) {
@@ -536,5 +526,121 @@ public static void cariBarang() {
         sc.close();
     }
     
+
+    // Fungsi untuk menampilkan judul kategori
+    public static String JenisJudul(int namaJudul) {
+        switch (namaJudul) {
+            case 0:
+                return "DAFTAR IKAN";
+            case 1:
+                return "DAFTAR HIDANGAN LAUT";
+            case 2:
+                return "DAFTAR BUMBU DAPUR";
+            case 3:
+                return "DAFTAR BAHAN MINUMAN";
+            default:
+                return "";
+        }
+    }
+
+    static boolean updateItem(String searchTerm, int choice, Scanner sc) {
+        boolean ditemukan = false;
+        for (int kategori = 0; kategori < 4; kategori++) {
+            String[] kodeArray = GudangRestoran[kategori * 4];
+            String[] namaArray = GudangRestoran[kategori * 4 + 1];
+            String[] JmlArray = GudangRestoran[kategori * 4 + 2];
+            String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
+
+            for (int i = 0; i < kodeArray.length; i++) {
+                if (kodeArray[i].equalsIgnoreCase(searchTerm) || namaArray[i].equalsIgnoreCase(searchTerm)) {
+                    System.out.println("\n===== Update Data =====");
+                    System.out.println("Kode\t\t: " + kodeArray[i]);
+                    System.out.println("Nama Barang\t: " + namaArray[i]);
+                    System.out.println("Jumlah\t\t: " + JmlArray[i]);
+                    System.out.println("Satuan\t\t: " + SatuanArray[i]);
+                    sc.nextLine();
+
+                    // Meminta pengguna untuk memasukkan informasi baru
+                    switch (choice) {
+                        case 1:
+                            System.out.print("Masukkan kode baru: ");
+                            kodeArray[i] = sc.next();
+                            break;
+                        case 2:
+                            System.out.print("Masukkan nama baru: ");
+                            namaArray[i] = sc.nextLine();
+                            break;
+                        case 3:
+                            System.out.print("Masukkan satuan baru: ");
+                            SatuanArray[i] = sc.next();
+                            break;
+                        default:
+                            System.out.println("Pilihan tidak valid.");
+                            return false;
+                    }
+
+                    ditemukan = true;
+                    break; // Item ditemukan dan diupdate, keluar dari loop
+                }
+            }
+        }
+        return ditemukan;
+    }
+
+
+static void inputData(String kode, String nama, String jumlah, String satuan) {
+        // Menentukan kategori berdasarkan kode
+        int kategori;
+        if (kode.startsWith("I-")) {
+            kategori = 0;
+        } else if (kode.startsWith("H-")) {
+            kategori = 1;
+        } else if (kode.startsWith("B-")) {
+            kategori = 2;
+        } else if (kode.startsWith("M-")) {
+            kategori = 3;
+        } else {
+            System.out.println("Kategori tidak valid.");
+            return;
+        }
+
+        // Menambahkan data baru ke dalam array
+        GudangRestoran[kategori * 4] = Arrays.copyOf(GudangRestoran[kategori * 4], GudangRestoran[kategori * 4].length + 1);
+        GudangRestoran[kategori * 4 + 1] = Arrays.copyOf(GudangRestoran[kategori * 4 + 1], GudangRestoran[kategori * 4 + 1].length + 1);
+        GudangRestoran[kategori * 4 + 2] = Arrays.copyOf(GudangRestoran[kategori * 4 + 2], GudangRestoran[kategori * 4 + 2].length + 1);
+        GudangRestoran[kategori * 4 + 3] = Arrays.copyOf(GudangRestoran[kategori * 4 + 3], GudangRestoran[kategori * 4 + 3].length + 1);
+
+        int lastIndex = GudangRestoran[kategori * 4].length - 1;
+        GudangRestoran[kategori * 4][lastIndex] = kode;
+        GudangRestoran[kategori * 4 + 1][lastIndex] = nama;
+        GudangRestoran[kategori * 4 + 2][lastIndex] = jumlah;
+        GudangRestoran[kategori * 4 + 3][lastIndex] = satuan;
+    }
+
+    static void sortArrayDescending() {
+        for (int kategori = 0; kategori < 4; kategori++) {
+            int length = GudangRestoran[kategori * 4].length;
+            String[][] tempArray = new String[4][length];
+
+            // Menggabungkan data ke dalam array sementara
+            for (int i = 0; i < length; i++) {
+                tempArray[0][i] = GudangRestoran[kategori * 4][i];
+                tempArray[1][i] = GudangRestoran[kategori * 4 + 1][i];
+                tempArray[2][i] = GudangRestoran[kategori * 4 + 2][i];
+                tempArray[3][i] = GudangRestoran[kategori * 4 + 3][i];
+            }
+
+            // Mengurutkan array sementara berdasarkan kode secara descending
+            Arrays.sort(tempArray, Comparator.comparing((String[] arr) -> arr[0]).reversed());
+
+            // Menggabungkan array sementara ke dalam array utama
+            for (int i = 0; i < length; i++) {
+                GudangRestoran[kategori * 4][i] = tempArray[0][i];
+                GudangRestoran[kategori * 4 + 1][i] = tempArray[1][i];
+                GudangRestoran[kategori * 4 + 2][i] = tempArray[2][i];
+                GudangRestoran[kategori * 4 + 3][i] = tempArray[3][i];
+            }
+        }
+    }
 }
 
