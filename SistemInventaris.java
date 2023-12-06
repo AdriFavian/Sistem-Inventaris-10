@@ -59,6 +59,8 @@ public class SistemInventaris {
         String RED = "\u001B[31m";
         String GREEN = "\u001B[32m";
         String YELLOW = "\u001B[33m";
+        String ORANGE = "\u001B[38;5;208m";
+        String BLUE = "\u001B[94m";
         
         
         /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,12 +140,16 @@ public class SistemInventaris {
                         String newJumlah = sc.next();
                         System.out.print("Masukkan satuan baru: ");
                         String newSatuan = sc.next();
+                        System.out.println();
+                        System.out.println(GREEN + "Data barang baru telah disimpan!" + RESET);
 
                         inputData(newKode, newNama, newJumlah, newSatuan);
                         break;
                         
                     } else if (currentRole.equals("Staff")) {
                         //Input data barang rusak
+                        System.out.print("Masukkan data barang rusak: ");
+
                         break;
                     }
                     //////////////////////////////////////////////////////////////////////////////////////////
@@ -193,19 +199,22 @@ public class SistemInventaris {
                                                         System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
 
                                                         // Menambah jumlah barang
+                                                        System.out.println();
                                                         System.out.print("Masukkan jumlah barang yang ingin ditambahkan: ");
                                                         int jumlahTambah = sc.nextInt();
                                                         int jumlahSebelum = Integer.parseInt(JmlArray[j]);
                                                         int jumlahSetelah = jumlahSebelum + jumlahTambah;
                                                         JmlArray[j] = String.valueOf(jumlahSetelah);
 
-                                                        System.out.println("Jumlah barang berhasil ditambahkan.");
+                                                        System.out.println();
+                                                        System.out.println(GREEN+ "Jumlah barang berhasil ditambahkan." + RESET);
+                                                        System.out.println(GREEN + "----------------------------------" + RESET);
                                                         ditemukan = true;
                                                     }
                                                 }
                                             }
                                             if (!ditemukan) {
-                                                System.out.println("Barang dengan kode atau nama " + dataBarang + " tidak ditemukan.");
+                                                System.out.println(RED + "Barang dengan kode atau nama " + dataBarang + " tidak ditemukan." + RESET);
                                             }
 
                                             
@@ -247,18 +256,22 @@ public class SistemInventaris {
                                                         System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
 
                                                         // Mengurangi jumlah barang
+                                                        System.out.println();
                                                         System.out.print("Masukkan jumlah barang yang ingin dikurangi: ");
                                                         int jumlahKurang = sc.nextInt();
                                                         int jumlahSebelum = Integer.parseInt(JmlArray[j]);
                                                         int jumlahSetelah = jumlahSebelum - jumlahKurang;
                                                         JmlArray[j] = String.valueOf(jumlahSetelah);
 
-                                                        if (jumlahSebelum > jumlahKurang) {
-                                                            System.out.println("Mohon maaf, jumlah barang yang ingin dikurangi tidak mencukupi.");
+                                                        if (jumlahSebelum < jumlahKurang) {
+                                                            System.out.println(RED + "Mohon maaf, jumlah barang yang ingin dikurangi tidak mencukupi." + RESET);
+                                                            System.out.println(RED + "---------------------------------------------------------------" + RESET);
                                                             break;
                                                         }
 
-                                                        System.out.println("Jumlah barang berhasil dikurangi.");
+                                                        System.out.println();
+                                                        System.out.println(GREEN + "Jumlah barang berhasil dikurangi." + RESET);
+                                                        System.out.println(GREEN + "---------------------------------" + RESET);
                                                         ditemukan = true;
                                                     }
                                                 }
@@ -311,7 +324,9 @@ public class SistemInventaris {
                     
                             // Tampilkan array yang sudah diupdate
                             if (itemDitemukan) {
-                                System.out.println("Data berhasil diupdate:");
+                                System.out.println();
+                                System.out.println(GREEN + "Data berhasil diupdate!" + RESET);
+                                System.out.println();
                                 for (int kategori = 0; kategori < 4; kategori++) {
                                     String[] kodeArray = GudangRestoran[kategori * 4];
                                     String[] namaArray = GudangRestoran[kategori * 4 + 1];
@@ -320,7 +335,10 @@ public class SistemInventaris {
 
                                     
                                     String kategoriJudul = JenisJudul(kategori);
-                                    System.out.println("========================" + kategoriJudul + "=========================");
+                                    System.out.println("                     ================================="               );
+                                    System.out.println(                                 kategoriJudul                           );
+                                    System.out.println("                     =================================               ");
+                                    System.out.println();
                                     System.out.println("=====================================================================");
                                     System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan     |");
                                     System.out.println("=====================================================================");
@@ -381,7 +399,7 @@ public class SistemInventaris {
                             System.out.println("|4| Laporan Stock Barang Sekarang");
                             System.out.println("|5| Laporan Stock Paling Banyak Keluar");
                             System.out.println("|6| Laporan Data Barang Habis Atau Sedikit");
-                            System.out.println(RED +"|9| KELUAR" + RESET);
+                            System.out.println(RED +"|0| KELUAR" + RESET);
                             System.out.println();
                             System.out.print("Pilih Menu: ");
                             int laporanUser = sc.nextInt();
@@ -407,9 +425,9 @@ public class SistemInventaris {
                                     break;
 
                                 case 4:
-                                    System.out.println("=======================================");
-                                    System.out.println(        "LAPORAN STOCK BARANG SEKARANG"  );
-                                    System.out.println("=======================================");
+                                    System.out.println(ORANGE + "=====================================================================" + RESET);
+                                    System.out.println(ORANGE +"                     LAPORAN STOCK BARANG SEKARANG"  + RESET);
+                                    System.out.println(ORANGE+"=====================================================================" + RESET);
                                     System.out.println();
                                     
                                     for (int kategori = 0; kategori < 4; kategori++) {
@@ -418,9 +436,10 @@ public class SistemInventaris {
                                         String[] JmlArray = GudangRestoran[kategori * 4 + 2];
                                         String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
 
-                                        
                                         String kategoriJudul = JenisJudul(kategori);
-                                        System.out.println("========================" + kategoriJudul + "=========================");
+                                        System.out.println("                     =================================               ");
+                                        System.out.println("\t\t\t     " + kategoriJudul                           );
+                                        System.out.println("                     =================================               ");
                                         System.out.println("=====================================================================");
                                         System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan     |");
                                         System.out.println("=====================================================================");
@@ -441,9 +460,10 @@ public class SistemInventaris {
 
                                 case 6:
                                     System.out.println(RED + "SEGERA RE-STOCK BARANG-BARANG BERIKUT KARENA MEMILIKI JUMLAH SEDIKIT DAN HAMPIR HABIS" + RESET);
-                                    System.out.println("=======================================");
-                                    System.out.println( "LAPORAN DATA BARANG SEDIKIT ATAU HABIS"   );
-                                    System.out.println("=======================================");
+                                    System.out.println();
+                                    System.out.println(BLUE + "                 =======================================            " + RESET);
+                                    System.out.println(BLUE + "                  LAPORAN DATA BARANG SEDIKIT ATAU HABIS            " + RESET);
+                                    System.out.println(BLUE + "                 =======================================            " + RESET);
                                     System.out.println();
                                     System.out.println("=====================================================================");
                                     System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan     |");
@@ -466,7 +486,7 @@ public class SistemInventaris {
                                     System.out.println();
                                     break;
 
-                                case 9:
+                                case 0:
                                 konfirmasiUser = false;
                                 break;
                                 
@@ -531,7 +551,7 @@ public class SistemInventaris {
     public static String JenisJudul(int namaJudul) {
         switch (namaJudul) {
             case 0:
-                return "DAFTAR IKAN";
+                return "DAFTAR IKAN LAUT";
             case 1:
                 return "DAFTAR HIDANGAN LAUT";
             case 2:
