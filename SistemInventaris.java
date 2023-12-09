@@ -1,6 +1,8 @@
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class SistemInventaris {
     static String[][] GudangRestoran= {
@@ -9,6 +11,7 @@ public class SistemInventaris {
             {"Patin", "Kakap", "Bawal", "Gurame", "Bandeng"},
             {"5", "8", "7", "5", "4"},
             {"kg", "kg", "kg", "kg", "kg"},
+            
 
             // Daftar Hidangan laut
             {"H-001", "H-002", "H-003", "H-004"},
@@ -27,7 +30,7 @@ public class SistemInventaris {
             //Daftar Bahan Minuman
             {"M-001", "M-002", "M-003", "M-004"},
             {"Teh", "Lemon", "Air putih", "Es Batu"},
-            {"7", "6", "10", "3"},
+            {"7", "6", "10", "9"},
             {"buah", "kg", "galon", "box"},
         };
     
@@ -169,125 +172,133 @@ public class SistemInventaris {
                             System.out.println();
                             System.out.print("Pilih Menu: ");
                             int userChoice = sc.nextInt();
+                            boolean ditemukan = false;
+                            boolean konfirmasi = false;
 
                             switch (userChoice) {
                                 case 1:
-                                    sc.nextLine();
-                                    boolean ditemukan = false;
-                                    boolean konfirmasi = false;
-                                    do {
-                                        System.out.print("Masukkan berapa barang yang ingin Anda input masuk:");
-                                        int jumlahBarangInput = sc.nextInt();
-                                        sc.nextLine();
+                                // Input data masuk
+                                System.out.print("Masukkan berapa barang yang ingin Anda input masuk: ");
+                                int jumlahBarangInput = sc.nextInt();
+                                sc.nextLine(); // membersihkan newline dari buffer
 
-                                        for (int j =0; j <jumlahBarangInput; j++) {
-                                            System.out.print("Masukkan kode atau nama barang: ");
-                                            String dataBarang = sc.nextLine();
+                                for (int j = 0; j < jumlahBarangInput; j++) {
+                                    System.out.print("Masukkan kode atau nama barang: ");
+                                    String dataBarang = sc.nextLine();
 
-                                            ditemukan = false;
+                                    ditemukan = false;
 
-                                            for (int kategori = 0; kategori < 4; kategori++) {
-                                                String[] kodeArray = GudangRestoran[kategori * 4];
-                                                String[] namaArray = GudangRestoran[kategori * 4 + 1];
-                                                String[] JmlArray = GudangRestoran[kategori * 4 + 2];
-                                                String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
+                                    int indeksKategori = -1;
+                                    int indeksBarang = -1;
 
-                                                String kategoriJudul = JenisJudul(kategori);
-                                                for (int i = 0; i < kodeArray.length; i++) {
-                                                    if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
-                                                        System.out.println("\n===== " + kategoriJudul + " =====");
-                                                        System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
+                                    for (int kategori = 0; kategori < 4; kategori++) {
+                                        String[] kodeArray = GudangRestoran[kategori * 4];
+                                        String[] namaArray = GudangRestoran[kategori * 4 + 1];
+                                        String[] JmlArray = GudangRestoran[kategori * 4 + 2];
+                                        String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
 
-                                                        // Menambah jumlah barang
-                                                        System.out.println();
-                                                        System.out.print("Masukkan jumlah barang yang ingin ditambahkan: ");
-                                                        int jumlahTambah = sc.nextInt();
-                                                        int jumlahSebelum = Integer.parseInt(JmlArray[j]);
-                                                        int jumlahSetelah = jumlahSebelum + jumlahTambah;
-                                                        JmlArray[j] = String.valueOf(jumlahSetelah);
-
-                                                        System.out.println();
-                                                        System.out.println(GREEN+ "Jumlah barang berhasil ditambahkan." + RESET);
-                                                        System.out.println(GREEN + "----------------------------------" + RESET);
-                                                        ditemukan = true;
-                                                    }
-                                                }
+                                        String kategoriJudul = JenisJudul(kategori);
+                                        for (int i = 0; i < kodeArray.length; i++) {
+                                            if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
+                                                System.out.println("\n===== " + kategoriJudul + " =====");
+                                                System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
+                                                indeksKategori = kategori;
+                                                indeksBarang = i;
+                                                ditemukan = true;
+                                                break;
                                             }
-                                            if (!ditemukan) {
-                                                System.out.println(RED + "Barang dengan kode atau nama " + dataBarang + " tidak ditemukan." + RESET);
-                                            }
+                                        }
+                                        if (ditemukan) {
+                                            break;
+                                        }
+                                    }
 
-                                            
-                                            sc.nextLine();
-                                            if (jumlahBarangInput - j == 1) {
-                                                konfirmasi = true;
-                                            }
-                                            }
+                                    if (ditemukan) {
+                                        String[] JmlArray = GudangRestoran[indeksKategori * 4 + 2];
+                                        // Menambah jumlah barang
+                                        System.out.print("Masukkan jumlah barang yang ingin ditambahkan: ");
+                                        int jumlahTambah = sc.nextInt();
+                                        sc.nextLine(); // membersihkan newline dari buffer
 
-                                        } while (!konfirmasi);
-                                        break;
+                                        int jumlahSebelum = Integer.parseInt(JmlArray[indeksBarang]);
+                                        int jumlahSetelah = jumlahSebelum + jumlahTambah;
+                                        JmlArray[indeksBarang] = String.valueOf(jumlahSetelah);
+
+                                        System.out.println();
+                                        System.out.println(GREEN + "Jumlah barang berhasil ditambahkan." + RESET);
+                                        System.out.println(GREEN + "----------------------------------" + RESET);
+                                        System.out.println();
+                                        
+                                    } else {
+                                        System.out.println(RED + "Barang dengan kode atau nama " + dataBarang + " tidak ditemukan." + RESET);
+                                    }
+                                }
+                                break;
 
                                 case 2:
-                                sc.nextLine();
-                                ditemukan = false;
-                                konfirmasi = false;
+                                 // Input data keluar
+                                System.out.print("Masukkan berapa barang yang ingin Anda input keluar: ");
+                                jumlahBarangInput = sc.nextInt();
+                                sc.nextLine(); // membersihkan newline dari buffer
 
-                                    do {
-                                        System.out.print("Masukkan berapa barang yang ingin Anda input keluar:");
-                                        int jumlahBarangInput = sc.nextInt();
-                                        sc.nextLine();
+                                for (int j = 0; j < jumlahBarangInput; j++) {
+                                    System.out.print("Masukkan kode atau nama barang: ");
+                                    String dataBarang = sc.nextLine();
 
-                                        for (int j =0; j <jumlahBarangInput; j++) {
-                                            System.out.print("Masukkan kode atau nama barang: ");
-                                            String dataBarang = sc.nextLine();
+                                    ditemukan = false;
 
-                                            ditemukan = false;
+                                    int indeksKategori = -1;
+                                    int indeksBarang = -1;
 
-                                            for (int kategori = 0; kategori < 4; kategori++) {
-                                                String[] kodeArray = GudangRestoran[kategori * 4];
-                                                String[] namaArray = GudangRestoran[kategori * 4 + 1];
-                                                String[] JmlArray = GudangRestoran[kategori * 4 + 2];
-                                                String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
+                                    for (int kategori = 0; kategori < 4; kategori++) {
+                                        String[] kodeArray = GudangRestoran[kategori * 4];
+                                        String[] namaArray = GudangRestoran[kategori * 4 + 1];
+                                        String[] JmlArray = GudangRestoran[kategori * 4 + 2];
+                                        String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
 
-                                                String kategoriJudul = JenisJudul(kategori);
-                                                for (int i = 0; i < kodeArray.length; i++) {
-                                                    if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
-                                                        System.out.println("\n===== " + kategoriJudul + " =====");
-                                                        System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
-
-                                                        // Mengurangi jumlah barang
-                                                        System.out.println();
-                                                        System.out.print("Masukkan jumlah barang yang ingin dikurangi: ");
-                                                        int jumlahKurang = sc.nextInt();
-                                                        int jumlahSebelum = Integer.parseInt(JmlArray[j]);
-                                                        int jumlahSetelah = jumlahSebelum - jumlahKurang;
-                                                        JmlArray[j] = String.valueOf(jumlahSetelah);
-
-                                                        if (jumlahSebelum < jumlahKurang) {
-                                                            System.out.println(RED + "Mohon maaf, jumlah barang yang ingin dikurangi tidak mencukupi." + RESET);
-                                                            System.out.println(RED + "---------------------------------------------------------------" + RESET);
-                                                            break;
-                                                        }
-
-                                                        System.out.println();
-                                                        System.out.println(GREEN + "Jumlah barang berhasil dikurangi." + RESET);
-                                                        System.out.println(GREEN + "---------------------------------" + RESET);
-                                                        ditemukan = true;
-                                                    }
-                                                }
+                                        String kategoriJudul = JenisJudul(kategori);
+                                        for (int i = 0; i < kodeArray.length; i++) {
+                                            if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
+                                                System.out.println("\n===== " + kategoriJudul + " =====");
+                                                System.out.println(kodeArray[i] + " - " + namaArray[i] + " = " + JmlArray[i] + " " + SatuanArray[i]);
+                                                indeksKategori = kategori;
+                                                indeksBarang = i;
+                                                ditemukan = true;
+                                                break;
                                             }
-                                            if (!ditemukan) {
-                                                System.out.println("Barang dengan kode atau nama " + dataBarang + " tidak ditemukan.");
-                                            }
-                                            
-                                            sc.nextLine();
-                                            if (jumlahBarangInput - j == 1) {
-                                                konfirmasi = true;
-                                            }
-                                            }
+                                        }
+                                        if (ditemukan) {
+                                            break;
+                                        }
+                                    }
 
-                                        } while (!konfirmasi);
-                                        break;
+                                    if (ditemukan) {
+                                        String[] JmlArray = GudangRestoran[indeksKategori * 4 + 2];
+                                        // Mengurangi jumlah barang
+                                        System.out.print("Masukkan jumlah barang yang ingin dikeluarkan: ");
+                                        int jumlahKurang = sc.nextInt();
+                                        sc.nextLine(); // membersihkan newline dari buffer
+
+                                        int jumlahSebelum = Integer.parseInt(JmlArray[indeksBarang]);
+                                        int jumlahSetelah;
+
+                                        if (jumlahSebelum > jumlahKurang) {
+                                            jumlahSetelah = jumlahSebelum - jumlahKurang;
+                                            System.out.println();
+                                            System.out.println(GREEN + "Jumlah barang berhasil dikurangi." + RESET);
+                                            System.out.println(GREEN + "---------------------------------" + RESET);
+                                        } else {
+                                            jumlahSetelah = jumlahSebelum;
+                                            System.out.println(RED + "Jumlah barang yang Anda ingin dikeluarkan lebih besar dari stok. Data tetap." + RESET);
+                                            System.out.println(RED + "---------------------------------------------------------------------------"+ RESET);
+                                        }
+                                        JmlArray[indeksBarang] = String.valueOf(jumlahSetelah);
+                                        
+                                    } else {
+                                        System.out.println(RED + "Barang dengan kode atau nama " + dataBarang + " tidak ditemukan." + RESET);
+                                    }
+                                }
+                                break;
 
                                 case 0:
                                 konfirmasiUser = true;
@@ -336,7 +347,7 @@ public class SistemInventaris {
                                     
                                     String kategoriJudul = JenisJudul(kategori);
                                     System.out.println("                     ================================="               );
-                                    System.out.println(                                 kategoriJudul                           );
+                                    System.out.println(  "\t\t\t     " +               kategoriJudul                            );
                                     System.out.println("                     =================================               ");
                                     System.out.println();
                                     System.out.println("=====================================================================");
@@ -349,8 +360,10 @@ public class SistemInventaris {
                                     System.out.println("=====================================================================");
                                     System.out.println();
                                 }
-                                } else 
-                                System.out.println("Item tidak ditemukan.");
+                                } else {
+                                    System.out.println();
+                                    System.out.println(RED+ "Item tidak ditemukan."+ RESET);
+                                }
                                 break;
                                 
                         } else if (currentRole.equals("Staff")) {
@@ -407,9 +420,14 @@ public class SistemInventaris {
 
                             switch (laporanUser) {
                                 case 1:
-                                    System.out.println("=======================================");
-                                    System.out.println(        "LAPORAN DATA BARANG MASUK"      );
-                                    System.out.println("=======================================");
+                                    System.out.println("                           =======================================");
+                                    System.out.println("                                    LAPORAN DATA BARANG MASUK"      );
+                                    System.out.println("                           =======================================");
+                                    System.out.println();
+                                    System.out.println("=================================================================================");
+                                    System.out.println("| KODE   |       Nama Barang       | Jumlah Sebelum | Jumlah Saat ini |  Satuan  |");
+                                    System.out.println("=================================================================================");
+
                                     break;
 
                                 case 2:
@@ -459,16 +477,20 @@ public class SistemInventaris {
                                     break;
 
                                 case 6:
+                                    boolean konfirmasiBarangSedikit = false;
+
                                     System.out.println(RED + "SEGERA RE-STOCK BARANG-BARANG BERIKUT KARENA MEMILIKI JUMLAH SEDIKIT DAN HAMPIR HABIS" + RESET);
                                     System.out.println();
                                     System.out.println(BLUE + "                 =======================================            " + RESET);
                                     System.out.println(BLUE + "                  LAPORAN DATA BARANG SEDIKIT ATAU HABIS            " + RESET);
                                     System.out.println(BLUE + "                 =======================================            " + RESET);
                                     System.out.println();
-                                    System.out.println("=====================================================================");
-                                    System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan     |");
-                                    System.out.println("=====================================================================");
-
+                                    if (konfirmasiBarangSedikit = true) {
+                                        System.out.println("=====================================================================");
+                                        System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan     |");
+                                        System.out.println("=====================================================================");
+                                    }
+                                    
                                     for (int kategori = 0; kategori < 4; kategori++) {
                                         String[] kodeArray = GudangRestoran[kategori * 4];
                                         String[] namaArray = GudangRestoran[kategori * 4 + 1];
@@ -479,11 +501,17 @@ public class SistemInventaris {
                                             int jumlahStok = Integer.parseInt(JmlArray[i]);
                                             if (jumlahStok <= 3) {
                                                 System.out.printf("| %-6s | %-23s | %-13.5s | %-14.5s |%n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i]);
-                                            }
+                                                konfirmasiBarangSedikit = true;
+                                            } 
                                         }
                                     }
                                     System.out.println("=====================================================================");
                                     System.out.println();
+
+                                    if (!konfirmasiBarangSedikit) {
+                                        System.out.println(GREEN + "               TIDAK ADA BARANG HABIS ATAU TINGGAL SEDIKIT            " + RESET);
+                                        System.out.println(GREEN + "                 CEK KEMBALI DATA BARANG NANTI ATAU BESOK           " + RESET);
+                                    }
                                     break;
 
                                 case 0:
@@ -565,12 +593,13 @@ public class SistemInventaris {
 
     static boolean updateItem(String searchTerm, int choice, Scanner sc) {
         boolean ditemukan = false;
+        
         for (int kategori = 0; kategori < 4; kategori++) {
             String[] kodeArray = GudangRestoran[kategori * 4];
             String[] namaArray = GudangRestoran[kategori * 4 + 1];
             String[] JmlArray = GudangRestoran[kategori * 4 + 2];
             String[] SatuanArray = GudangRestoran[kategori * 4 + 3];
-
+    
             for (int i = 0; i < kodeArray.length; i++) {
                 if (kodeArray[i].equalsIgnoreCase(searchTerm) || namaArray[i].equalsIgnoreCase(searchTerm)) {
                     System.out.println("\n===== Update Data =====");
@@ -579,12 +608,12 @@ public class SistemInventaris {
                     System.out.println("Jumlah\t\t: " + JmlArray[i]);
                     System.out.println("Satuan\t\t: " + SatuanArray[i]);
                     sc.nextLine();
-
+    
                     // Meminta pengguna untuk memasukkan informasi baru
                     switch (choice) {
                         case 1:
                             System.out.print("Masukkan kode baru: ");
-                            kodeArray[i] = sc.next();
+                            kodeArray[i] = sc.nextLine();
                             break;
                         case 2:
                             System.out.print("Masukkan nama baru: ");
@@ -592,13 +621,13 @@ public class SistemInventaris {
                             break;
                         case 3:
                             System.out.print("Masukkan satuan baru: ");
-                            SatuanArray[i] = sc.next();
+                            SatuanArray[i] = sc.nextLine();
                             break;
                         default:
                             System.out.println("Pilihan tidak valid.");
                             return false;
                     }
-
+    
                     ditemukan = true;
                     break; // Item ditemukan dan diupdate, keluar dari loop
                 }
@@ -606,7 +635,7 @@ public class SistemInventaris {
         }
         return ditemukan;
     }
-
+    
 
 static void inputData(String kode, String nama, String jumlah, String satuan) {
         // Menentukan kategori berdasarkan kode
