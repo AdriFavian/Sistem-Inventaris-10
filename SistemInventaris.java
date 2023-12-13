@@ -54,6 +54,12 @@ public class SistemInventaris {
             static List<String[]> barangRusakList = new ArrayList<>();
             static List<String[]> barangMasukList = new ArrayList<>();
             static List<String[]> barangKeluarList = new ArrayList<>();
+            static List<String[]> historyPenggunaan = new ArrayList<>();
+
+            //Penanda waktu
+            static LocalDateTime now = LocalDateTime.now();
+            static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            static String formattedDateTime = now.format(formatter);
         
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -118,7 +124,7 @@ public class SistemInventaris {
                 System.out.println("|3| Update Data Barang Ke Master");
                 System.out.println("|4| Pencarian Data Barang");
                 System.out.println("|5| Laporan Data Barang");
-                // System.out.println("|6| Daftar Data Barang");
+                System.out.println("|6| History penggunaan sistem");
                 System.out.println(YELLOW+"|9| Beralih Akun"+RESET);
                 System.out.println(RED+"|0| Keluar"+RESET);
                 
@@ -159,6 +165,11 @@ public class SistemInventaris {
                         System.out.println(GREEN + "Data barang baru telah disimpan!" + RESET);
 
                         inputData(newKode, newNama, newJumlah, newSatuan, tanggal );
+                        System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+
+                        historyPenggunaan.add(new String[] {
+                            "Admin", "Input data barang ke master", formattedDateTime
+                        });
                         break;
                         
                     } else if (currentRole.equals("Staff")) {
@@ -230,6 +241,11 @@ public class SistemInventaris {
                             }
                         }
                     }
+                    System.out.println(BLUE + "[Data terakhir di update oleh Staff pada tanggal " + now.format(formatter)  + "]"+ RESET);
+
+                    historyPenggunaan.add(new String[] {
+                        "Staff", "Input data barang rusak", now.format(formatter)
+                    });
                     break;
                     //////////////////////////////////////////////////////////////////////////////////////////
                     
@@ -301,7 +317,6 @@ public class SistemInventaris {
                                         System.out.print("Masukkan jumlah barang yang ingin ditambahkan: ");
                                         int jumlahTambah = sc.nextInt();
                                         
-
                                         sc.nextLine(); // membersihkan newline dari buffer
 
                                         int jumlahSebelum = Integer.parseInt(JmlArray[indeksBarang]);
@@ -342,7 +357,13 @@ public class SistemInventaris {
                                     } else {
                                         System.out.println(RED + "Barang dengan kode atau nama " + dataBarang + " tidak ditemukan." + RESET);
                                     }
+
+                                    historyPenggunaan.add(new String[] {
+                                        "Admin", "Input data barang masuk", getFormattedDateTime()
+                                    });
+
                                 }
+                                System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
                                 break;
 
                                 case 2:
@@ -442,7 +463,13 @@ public class SistemInventaris {
                                     } else {
                                         System.out.println(RED + "Barang dengan kode atau nama " + dataBarang + " tidak ditemukan." + RESET);
                                     }
+                                    
+
+                                    historyPenggunaan.add(new String[] {
+                                        "Admin", "Input data barang keluar", getFormattedDateTime()
+                                    });
                                 }
+                                System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
                                 break;
 
                                 case 0:
@@ -477,6 +504,12 @@ public class SistemInventaris {
                             if (!ditemukan) {
                                 System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
                                 }
+                        
+                        System.out.println(BLUE + "[Data terakhir di update oleh Staff pada tanggal " + formattedDateTime  + "]"+ RESET);
+
+                                    historyPenggunaan.add(new String[] {
+                                        "Staff", "Membuka Pencarian Barang", now.format(formatter)
+                                    });
                         }
                         break;
                 
@@ -530,6 +563,12 @@ public class SistemInventaris {
                                     System.out.println();
                                     System.out.println(RED+ "Item tidak ditemukan."+ RESET);
                                 }
+
+                                System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+
+                                    historyPenggunaan.add(new String[] {
+                                        "Admin", "Update data barang", now.format(formatter)
+                                    });
                                 break;
                                 
                         } else if (currentRole.equals("Staff")) {
@@ -569,7 +608,7 @@ public class SistemInventaris {
                                             System.out.println(GREEN + "DEAR STAFF, BERIKUT INI ADALAH DATA BARANG YANG SUDAH ANDA CATAT SEBAGAI BARANG RUSAK." + RESET);
                                             tampilkanLaporanBarangRusak(barangRusakList);
                                         } else {
-                                            System.out.println(RED + "TIDAK ADA BARANG RUSAK YANG ANDA INPUT." + RESET);
+                                            System.out.println(GREEN + "TIDAK ADA BARANG RUSAK YANG ANDA INPUT." + RESET);
                                         }
                                         break;
 
@@ -579,9 +618,7 @@ public class SistemInventaris {
                                         break;
 
                                     case 5:
-                                        System.out.println("=======================================");
-                                        System.out.println(   "LAPORAN STOCK PALING BANYAK KELUAR"  );
-                                        System.out.println("=======================================");
+                                        LaporanBarangPalingBanyakKeluar();
                                         break;
 
                                     case 6:
@@ -628,6 +665,12 @@ public class SistemInventaris {
                                 if (!ditemukan) {
                                     System.out.println("Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.");
                                 }
+
+                                System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+
+                                    historyPenggunaan.add(new String[] {
+                                        "Admin", "Mencari data barang", now.format(formatter)
+                                    });
                             }
                             break;
 
@@ -678,9 +721,7 @@ public class SistemInventaris {
                                     break;
 
                                 case 5:
-                                    System.out.println("=======================================");
-                                    System.out.println(   "LAPORAN STOCK PALING BANYAK KELUAR"  );
-                                    System.out.println("=======================================");
+                                    LaporanBarangPalingBanyakKeluar();
                                     break;
 
                                 case 6:
@@ -696,7 +737,10 @@ public class SistemInventaris {
 
                         } while (konfirmasiUser);
                         break;
-                    
+                    case 6:
+                    //History penggunaan sistem
+                        historyPenggunaanSistem(historyPenggunaan);
+                    break;
                     ///////////////////////////////////////////////////////////////////////////////////////////////////    
                     case 9:
                         System.out.println(YELLOW+"=========================================="+RESET);
@@ -976,7 +1020,6 @@ static void inputData(String kode, String nama, String jumlah, String satuan, Lo
             System.out.println("                           =======================================");
             System.out.println("                                    LAPORAN DATA BARANG MASUK"      );
             System.out.println("                           =======================================");
-            System.out.println();
             System.out.println("========================================================================================================================");
             System.out.println("| KODE   |       Nama Barang       | Jumlah Sebelum | Jumlah Saat ini |  Satuan  | Kadaluarsa |     Tanggal Input      |");
             System.out.println("========================================================================================================================");
@@ -986,7 +1029,7 @@ static void inputData(String kode, String nama, String jumlah, String satuan, Lo
                 System.out.printf("| %-6s | %-23s | %-14s | %-15.5s | %-8s | %-10s | %-23s |\n",
                 detailBarang[0], detailBarang[1], detailBarang[2], detailBarang[3], detailBarang[4], detailBarang[5], LocalDate.now().format(dateFormatter).toString());
             }
-                System.out.println("================================================================================================================");
+                System.out.println("========================================================================================================================");
                     
         } else {
                 System.out.println(RED + "Tidak ada barang yang di input." + RESET);
@@ -1016,5 +1059,66 @@ static void inputData(String kode, String nama, String jumlah, String satuan, Lo
             }
     }
 
-    
+    //Fungsi Laporan data yang paling banyak keluar
+    public static void LaporanBarangPalingBanyakKeluar() {
+        if (!barangKeluarList.isEmpty()) {
+            System.out.println("                           =======================================");
+            System.out.println("                           LAPORAN DATA BARANG PALING BANYAK KELUAR"    );
+            System.out.println("                           =======================================");
+            System.out.println("========================================================================================================================");
+            System.out.println("| KODE   |       Nama Barang       | Jumlah Sebelum | Jumlah Saat ini |  Satuan  | Kadaluarsa |     Tanggal Input      |");
+            System.out.println("========================================================================================================================");
+
+            int maxKeluar = 0;
+            String[] detailBarangMaxKeluar = new String[7]; 
+        
+            for (String[] detailBarang : barangKeluarList) {
+                int jumlahKeluar = Integer.parseInt(detailBarang[3]); 
+        
+                if (jumlahKeluar > maxKeluar) {
+                    maxKeluar = jumlahKeluar;
+                    detailBarangMaxKeluar = Arrays.copyOf(detailBarang, detailBarang.length);
+                }
+            }
+        
+            // Tampilkan barang dengan jumlah keluar paling banyak
+            System.out.printf("| %-6s | %-23s | %-14s | %-15.5s | %-8s | %-10s | %-23s |\n",
+                    detailBarangMaxKeluar[0], detailBarangMaxKeluar[1], detailBarangMaxKeluar[2],
+                    detailBarangMaxKeluar[3], detailBarangMaxKeluar[4], detailBarangMaxKeluar[5],
+                    detailBarangMaxKeluar[6]);
+            
+            System.out.println("========================================================================================================================");
+        } else {
+            System.out.println("Tidak ada barang yang keluar.");
+        }
+        
+    }
+
+    //Fungsi untuk menampilkan history Penggunaan 
+    public static void historyPenggunaanSistem (List<String[]> historyPenggunaan) {
+        if (!historyPenggunaan.isEmpty()) {
+            System.out.println("                           =======================================");
+            System.out.println("                                   HISTORY PENGGUNAAN SISTEM"    );
+            System.out.println("                           =======================================");
+            System.out.println("===============================================================================================");
+            System.out.println("| Role  |                       Kegiatan                               | Tanggal Penggunaan   |");
+            System.out.println("===============================================================================================");
+            
+            for (String[] history : historyPenggunaan) {
+                System.out.printf("| %-5s | %-60s | %-20s |\n",
+                history[0], history[1], history[2]
+                );
+            }
+            System.out.println("===============================================================================================");
+
+        } else {
+            System.out.println(GREEN + "Belum ada history penggunaan sistem ini." + RESET);
+        }
+    }
+
+    // Fungsi untuk mendapatkan waktu aktual
+    static String getFormattedDateTime() {
+        LocalDateTime now = LocalDateTime.now();
+        return now.format(formatter);
+    }
 }
