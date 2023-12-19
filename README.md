@@ -5,7 +5,7 @@ TUGAS AKHIR - KELOMPOK 10
 
 - **[1] Adnan Arju Maulana Pasha (02)**
 - **[2] Afifah Khoirunnisa (03)**
-- **[3] Rangga Dwi Saputra (18)**
+- **[3] Mohammad Adri Favian (18)**
 
 ## Fitur Aplikasi
 
