@@ -172,6 +172,7 @@ public class SistemInventaris {
                 case 1:
                     if (currentRole.equalsIgnoreCase("Admin")) {
                     //|1| Input Data Barang ke Master
+                        TampilkanStockSekarang();
                         inputDataMaster();
                         System.out.println(BLUE + "["+messages[langIndex][19]+" " + formattedDateTime  + "]"+ RESET);
 
@@ -239,7 +240,7 @@ public class SistemInventaris {
                                 sc.nextLine(); // membersihkan newline dari buffer
 
                                 System.out.println();
-                                System.out.print(messages[langIndex][70]+" ");
+                                System.out.println(messages[langIndex][70]+" ");
                                 System.out.println("1. "+messages[langIndex][42]);
                                 System.out.println("2. "+messages[langIndex][123]);
                                 System.out.println("3. "+messages[langIndex][124]);
@@ -339,7 +340,7 @@ public class SistemInventaris {
                                                 System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
                                                 System.out.println(CYAN + "                                            =================================               " + RESET);
                                                 System.out.println("=========================================================================================================================");
-                                                System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][94]+"    |     "+messages[langIndex][128]+"   |");
+                                                System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][42]+"    |     "+messages[langIndex][128]+"   |");
                                                 System.out.println("=========================================================================================================================");
                                                 
                                                 if (KadaluarsaArray[i] != " ") {
@@ -347,7 +348,7 @@ public class SistemInventaris {
                                                     long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
 
                                                         if (selisihTanggal.isAfter(hariIni)) {
-                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][129]);
+                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][130]);
                                                         } else if (selisihTanggal.isBefore(hariIni)) {
                                                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
@@ -412,6 +413,11 @@ public class SistemInventaris {
                                                 LocalDate tanggal = LocalDate.from(format.parse(tanggalKadaluarsa));
 
                                                 inputData(kodeArray[indeksBarang] , namaArray[indeksBarang] + " add", Integer.toString(jumlahTambah), SatuanArray[indeksBarang], tanggal );
+                                                barangMasukList.add(new String[]{
+                                                        kodeArray[indeksBarang] +"'", namaArray[indeksBarang] + " add", "0", Integer.toString(jumlahTambah),
+                                                        SatuanArray[indeksBarang], tanggalKadaluarsa, LocalDate.now().format(format).toString()
+                                                    });
+                                                    
                                                 break;
 
                                             case 3:
@@ -440,47 +446,8 @@ public class SistemInventaris {
                                         "Admin", messages[langIndex][26], getFormattedDateTime()
                                     });
 
-                                    // LocalDate selisihTanggal;
-                                    // for (int kategori = 0; kategori < 4; kategori++) {
-                                    //     String[] kodeArray = GudangRestoran[kategori * 5];
-                                    //     String[] namaArray = GudangRestoran[kategori * 5 + 1];
-                                    //     String[] JmlArray = GudangRestoran[kategori * 5 + 2];
-                                    //     String[] SatuanArray = GudangRestoran[kategori * 5 + 3];
-                                    //     String[] KadaluarsaArray = GudangRestoran[kategori * 5 + 4];
-
-                                    //     String kategoriJudul = JenisJudul(kategori);
-                                    //     for (int i = 0; i < kodeArray.length; i++) {
-                                    //         if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
-                                    //             System.out.println(CYAN + "                                            =================================               " + RESET);
-                                    //             System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
-                                    //             System.out.println(CYAN + "                                            =================================               " + RESET);
-                                    //             System.out.println("=========================================================================================================================");
-                                    //             System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
-                                    //             System.out.println("=========================================================================================================================");
-                                                
-                                    //             if (KadaluarsaArray[i] != " ") {
-                                    //                 selisihTanggal = LocalDate.parse(KadaluarsaArray[i], format);
-                                    //                 long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
-
-                                    //                     if (selisihTanggal.isAfter(hariIni)) {
-                                    //                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
-                                    //                     } else if (selisihTanggal.isBefore(hariIni)) {
-                                    //                         // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
-                                    //                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                    //                                 kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
-                                    //                     } else if (selisihTanggal == hariIni){
-                                    //                         // Tanggal kadaluarsa hari ini
-                                    //                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
-                                    //                     }
-                                    //             } else {
-                                    //                 System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-20s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i]," ");
-                                    //         }
-                                    //             System.out.println("=========================================================================================================================");
-                                    //             System.out.println();
-                                                    
-                                    //             }
-                                    //         }
-                                    //     }
+                                    
+                                    
                                     sc.nextLine();
                                 }
                                 System.out.println(BLUE + "["+messages[langIndex][19]+" " + formattedDateTime  + "]"+ RESET);
@@ -667,7 +634,7 @@ public class SistemInventaris {
                                                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
                                                                     kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
-                                                        } else if (selisihTanggal == hariIni){
+                                                        } else if (selisihTanggal.isEqual(hariIni)){
                                                             // Tanggal kadaluarsa hari ini
                                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                                         }
@@ -683,7 +650,7 @@ public class SistemInventaris {
                                     
 
                                     historyPenggunaan.add(new String[] {
-                                        "Admin ", messages[langIndex][30], getFormattedDateTime()
+                                        "Admin", messages[langIndex][30], getFormattedDateTime()
                                     });
                                 }
 
@@ -753,7 +720,7 @@ public class SistemInventaris {
                                             System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
                                             System.out.println(CYAN + "                                            =================================               " + RESET);
                                             System.out.println("=========================================================================================================================");
-                                            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][94]+"    |     "+messages[langIndex][128]+"   |");
+                                            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][42]+"    |     "+messages[langIndex][128]+"   |");
                                             System.out.println("=========================================================================================================================");
                                             
                                             selisihTanggal = LocalDate.parse(KadaluarsaArray[i], format);
@@ -764,7 +731,7 @@ public class SistemInventaris {
                                                 // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                                 System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
                                                         kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
-                                            } else {
+                                            } else if (selisihTanggal.isEqual(hariIni)){
                                                 // Tanggal kadaluarsa hari ini
                                                 System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                             }
@@ -1052,7 +1019,7 @@ public class SistemInventaris {
             "Belum ada data laporan barang rusak dari Staff",//10
             "Belum ada data history penggunaan sistem ini.",//11
             "CEK KEMBALI DATA BARANG NANTI ATAU BESOK",//12
-            "DAFTAR IKAN LAUT",//13
+            "DAFTAR IKAN LAUT    ",//13
             "DAFTAR HIDANGAN LAUT",//14
             "DAFTAR BUMBU MASAKAN",//15
             "DAFTAR BAHAN MINUMAN",//16
@@ -1209,10 +1176,10 @@ public class SistemInventaris {
             "No damaged items report data from Staff yet.",//10
             "No history data of system usage.",//11
             "CHECK AGAIN ON THE ITEM DATA LATER OR TOMORROW",//12
-            "LIST OF SEAFOOD",//13
-            "LIST OF SEAFOOD DISHES",//14
-            "LIST OF KITCHEN SPICES",//15
-            "LIST OF BEVERAGE INGREDIENTS",//16
+            "    LIST OF FISH    ",//13
+            "  LIST OF SEAFOOD   ",//14
+            " LIST OF SEASONINGS ",//15
+            "   LIST OF DRINKS   ",//16
             "New item data has been saved!",//17
             "Data successfully updated!",//18
             "Last data update by Admin on",//19
@@ -1220,7 +1187,7 @@ public class SistemInventaris {
             "DEAR ADMIN, PLEASE REMOVE THE FOLLOWING ITEMS AS THEY ARE DAMAGED.",//21
             "DEAR STAFF, HERE IS THE DATA OF ITEMS YOU HAVE MARKED AS DAMAGED.",//22
             "System usage history",//23
-            "SYSTEM USAGE HISTORY",//24
+            "   SYSTEM USAGE HISTORY  ",//24
             "Input Incoming Items Data",//25
             "Input Incoming items Data",//26
             "Input Incoming and Outgoing Items Data",//27
@@ -1231,15 +1198,15 @@ public class SistemInventaris {
             "Input damaged items data",//32
             "Item not found.",//33
             "Quantity",//34
-            "Quantity of Items",//35
+            "   Quantity  ",//35
             "Quantity of items successfully reduced.",//36
             "Quantity of items successfully added.",//37
             "The quantity of items you want to take out is greater than the stock. Data remains.",//38
             "Quantity of Damage",//39
             "Current Quantity",//40
             "Quantity Before",//41
-            "Expired",//42
-            "invalid category",//43
+            "  Expired ",//42
+            "invalid category",//432
             "Activity",//44
             "Exit",//45
             "Damage Description",//46
@@ -1254,9 +1221,9 @@ public class SistemInventaris {
             "Report of Damaged Items Data",//55
             "REPORT OF DAMAGED ITEMS DATA",//56
             "Report of Few or Empty Items",//57
-            "REPORT OF FEW OR EMPTY ITEMS",//58
+            "     REPORT OF FEW OR EMPTY ITEMS     ",//58
             "Current Stock Report",//59
-            "CURRENT STOCK REPORT",//60
+            "    CURRENT STOCK REPORT     ",//60
             "Report of Most Outgoing Stock",//61
             "Login failed. Please try again !",//62
             "Enter how many types of damaged items you want to input:",//63
@@ -1284,15 +1251,15 @@ public class SistemInventaris {
             "Opening Item Search",//85
             "Searching for item data",//86
             "Please input your data correctly !",//87
-            "Item Name",//88
+            "  Item Name",//88
             "Search for Items Data",//89
             "Choose the type of update:",//90
             "Choose Menu:",//91
             "Invalid choice !",//92
             "This program is created by:",//93
             "Unit",//94
-            "Item Unit",//95
-            "WELCOME TO THE INVENTORY SYSTEM",//96
+            "  Item Unit  ",//95
+            "  WELCOME TO THE INVENTORY SYSTEM ",//96
             "RE-STOCK YOUR ITEMS !",//97
             "You are now in the Menu:",//98
             "You are now in the Submenu:",//99
@@ -1304,7 +1271,7 @@ public class SistemInventaris {
             "Expiration date successfully changed.",//105
             "Expiration date successfully reset.",//106
             "Expiration Date Not Updated",//107
-            "Date of Use",//108
+            "    Date of Use  ",//108
             "ITEMS LOW IN STOCK OR OUT OF STOCK",//109
             "Thank you",//110
             "no",//111
@@ -1324,10 +1291,10 @@ public class SistemInventaris {
             "Other",//125
             "Enter your choice: ",//126
             "Please enter the issue of damage!",//127
-            "Expires in",//128
+            "   Expires in   ",//128
             "Expired",//129
             "days",//130
-            "Expired Today",//131
+            "   Expired Today   ",//131
             "Change Expiry Date:",//132
             "Reset Date",//133
             "Add Date",//134
@@ -1350,6 +1317,7 @@ public class SistemInventaris {
             "We apologize, the code you entered is not valid.",//151
             "CODE FORMAT",//152
             "WE APOLOGIZE, THE NAME IS ALREADY AVAILABLE, PLEASE ENTER THE NAME AGAIN.",//153
+            
         }
     };
 
@@ -1391,7 +1359,7 @@ public class SistemInventaris {
                     System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
                     System.out.println(CYAN + "                                            =================================               " + RESET);
                     System.out.println("=========================================================================================================================");
-                    System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][94]+"    |     "+messages[langIndex][128]+"   |");
+                    System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][42]+"    |     "+messages[langIndex][128]+"   |");
                     System.out.println("=========================================================================================================================");
                     
                     if (KadaluarsaArray[i] != " ") {
@@ -1403,7 +1371,7 @@ public class SistemInventaris {
                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
                                     kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
-                        } else if (selisihTanggal == hariIni){
+                        } else if (selisihTanggal.isEqual(hariIni)){
                             // Tanggal kadaluarsa hari ini
                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                         }
@@ -1592,7 +1560,7 @@ public class SistemInventaris {
                         // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
                                 kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
-                    } else if (selisihTanggal == hariIni){
+                    } else if (selisihTanggal.isEqual(hariIni)){
                         // Tanggal kadaluarsa hari ini
                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                     }
@@ -1620,9 +1588,9 @@ public class SistemInventaris {
         System.out.println(RED + "NOTE :  "+messages[langIndex][109] + RESET);
         System.out.println(RED + messages[langIndex][97] + RESET);
         System.out.println();
-        System.out.println(BLUE + "                 ==========================================            " + RESET);
-        System.out.println(BLUE + "                 | "+messages[langIndex][58]+" |            " + RESET);
-        System.out.println(BLUE + "                 ==========================================            " + RESET);
+        System.out.println(BLUE + "                             ==========================================            " + RESET);
+        System.out.println(BLUE + "                             | "+messages[langIndex][58]+" |            " + RESET);
+        System.out.println(BLUE + "                             ==========================================            " + RESET);
         System.out.println();
         System.out.println("=========================================================================================================================");
         System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][42]+"    |     "+messages[langIndex][128]+"   |");
@@ -1648,7 +1616,7 @@ public class SistemInventaris {
                                     // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
                                             kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
-                                } else if (selisihTanggal == hariIni){
+                                } else if (selisihTanggal.isEqual(hariIni)){
                                     // Tanggal kadaluarsa hari ini
                                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                 }
@@ -1672,11 +1640,11 @@ public class SistemInventaris {
     //Fungsi untuk menampilkan laporan barang masuk
     public static void TampilkanBarangMasuk(List<String[]> barangMasukList) {
         if (!barangMasukList.isEmpty()) {
-            System.out.println("                           =======================================");
-            System.out.println("                                    "+messages[langIndex][53]      );
-            System.out.println("                           =======================================");
+            System.out.println(CYAN +"                           =======================================" + RESET);
+            System.out.println(CYAN +"                                    "+messages[langIndex][53]      + RESET);
+            System.out.println(CYAN +"                           ======================================="+ RESET);
             System.out.println("========================================================================================================================");
-            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][41]+" | "+messages[langIndex][40]+" |  "+messages[langIndex][94]+"  | "+messages[langIndex][42]+" |     "+messages[langIndex][102]+"      |");
+            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][41]+" | "+messages[langIndex][40]+" |  "+messages[langIndex][94]+"  | "+messages[langIndex][42]+" | "+messages[langIndex][102]+"|");
             System.out.println("========================================================================================================================");
 
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -1696,12 +1664,12 @@ public class SistemInventaris {
     public static void TampilkanBarangKeluar(List<String[]> barangKeluarList) {
         if (!barangKeluarList.isEmpty()) {
             
-            System.out.println("                           =======================================");
-            System.out.println("                                   "+messages[langIndex][54]    );
-            System.out.println("                           =======================================");
+            System.out.println(CYAN + "                           =======================================" + RESET);
+            System.out.println(CYAN + "                           |       "+messages[langIndex][54]   +"|"+ RESET);
+            System.out.println(CYAN + "                           =======================================" + RESET);
             System.out.println();
             System.out.println("========================================================================================================================");
-            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][41]+" | "+messages[langIndex][40]+" |  "+messages[langIndex][94]+"  | "+messages[langIndex][42]+" |     "+messages[langIndex][102]+"      |");
+            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][41]+" | "+messages[langIndex][40]+" |  "+messages[langIndex][94]+"  | "+messages[langIndex][42]+" |"+messages[langIndex][102]+"|");
             System.out.println("========================================================================================================================");
 
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -1720,9 +1688,9 @@ public class SistemInventaris {
     //Fungsi Laporan data yang paling banyak keluar
     public static void LaporanBarangPalingBanyakKeluar() {
         if (!barangKeluarList.isEmpty()) {
-            System.out.println("                           ============================================");
-            System.out.println("                           | "+messages[langIndex][54]+" |"    );
-            System.out.println("                           ============================================");
+            System.out.println(CYAN + "                           ============================================"+ RESET);
+            System.out.println(CYAN +"                           | "+messages[langIndex][54]+" |"   + RESET );
+            System.out.println(CYAN +"                           ============================================" + RESET);
             System.out.println("========================================================================================================================");
             System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][41]+" | "+messages[langIndex][40]+" |  "+messages[langIndex][94]+"  | "+messages[langIndex][42]+" |     "+messages[langIndex][102]+"      |");
             System.out.println("========================================================================================================================");
@@ -1818,7 +1786,7 @@ public class SistemInventaris {
                                         // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
                                                 kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
-                                    } else if (selisihTanggal == hariIni){
+                                    } else if (selisihTanggal.isEqual(hariIni)){
                                         // Tanggal kadaluarsa hari ini
                                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                     }
@@ -1840,10 +1808,10 @@ public class SistemInventaris {
                         System.out.println(messages[langIndex][151]);
                         System.out.println();
                         System.out.println("============== "+messages[langIndex][152]+" ==============");
-                        System.out.println("Ikan Laut(marine fish)      = I-(3 Angka)");
-                        System.out.println("Hewan Laut(marine animals)     = H-(3 Angka)");
-                        System.out.println("Bumbu Dapur(herbs)    = B-(3 Angka)");
-                        System.out.println("Minuman(beverages)        = M-(3 Angka)");
+                        System.out.println("Ikan Laut(fish)            = I-(3 Angka)");
+                        System.out.println("Hidangan Laut(Seafood)     = H-(3 Angka)");
+                        System.out.println("Bumbu Dapur(Seasonings)    = B-(3 Angka)");
+                        System.out.println("Minuman(drinks)            = M-(3 Angka)");
                         System.out.println();
                         ditemukan = true;
                     }
@@ -1880,7 +1848,7 @@ public class SistemInventaris {
                                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
                                                     kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
-                                        } else if (selisihTanggal == hariIni){
+                                        } else if (selisihTanggal.isEqual(hariIni)){
                                             // Tanggal kadaluarsa hari ini
                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                         }
