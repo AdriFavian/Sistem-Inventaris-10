@@ -1318,7 +1318,38 @@ public class SistemInventaris {
             "Update Data",//119
             "Update items data",//120
             "Update Items Data to Master",//121
-            "yes"//122
+            "yes",//122
+            "Rotten",//123
+            "Damaged Packaging",//124
+            "Other",//125
+            "Enter your choice: ",//126
+            "Please enter the issue of damage!",//127
+            "Expires in",//128
+            "Expired",//129
+            "days",//130
+            "Expired Today",//131
+            "Change Expiry Date:",//132
+            "Reset Date",//133
+            "Add Date",//134
+            "Leave Date",//135
+            "Add Expiry Date (dd-MM-yyyy):",//136
+            "DEAR ADMIN, THE FOLLOWING ITEMS MUST BE REMOVED FROM THE LIST.",//137
+            "The quantity of items has been successfully reduced. OUT OF STOCK, PLEASE RE-STOCK IMMEDIATELY!!",//138
+            "Viewing Incoming Stock Report",//139
+            "Viewing Outgoing Stock Report",//140
+            "Viewing Damaged Stock Report",//141
+            "The last data was viewed by Staff on",//142
+            "Viewing Current Stock Report",//143
+            "Viewing Most Outgoing Stock Report",//144
+            "Viewing Depleted Stock Report",//145
+            "The last data search was performed by Admin on",//146
+            "The last data was viewed by Admin on",//147
+            "Viewing Most Outgoing Stock Report",//148
+            "(kg/piece/liter/gallon/box/pack/other)",//149
+            "WE APOLOGIZE, THE CODE IS ALREADY AVAILABLE, PLEASE ENTER THE CODE AGAIN.",//150
+            "We apologize, the code you entered is not valid.",//151
+            "CODE FORMAT",//152
+            "WE APOLOGIZE, THE NAME IS ALREADY AVAILABLE, PLEASE ENTER THE NAME AGAIN.",//153
         }
     };
 
