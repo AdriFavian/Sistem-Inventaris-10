@@ -6,13 +6,6 @@ import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoUnit;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-import java.text.ParseException;
-// import java.time.format.DateTimeParseException;
 
 public class SistemInventaris {
     static String[][] GudangRestoran = {
@@ -69,9 +62,31 @@ public class SistemInventaris {
     static LocalDate hariIni = LocalDate.now();
     static DateTimeFormatter format= DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-    static  Scanner sc = new Scanner(System.in);
+    public static int langIndex = 0; //default 
+
+    public static Scanner sc = new Scanner(System.in); //Scanner
+
     public static void main(String[] args) {
-        
+    
+    while (true) {
+        System.out.println(YELLOW+"=========================================="+RESET);
+        System.out.println("      Choose language / Pilih bahasa");
+        System.out.println(YELLOW+"=========================================="+RESET);
+        System.out.println("|1| Bahasa Indonesia");
+        System.out.println("|2| English");
+        System.out.print("Enter your choice / Masukkan pilihan Anda (1-2): ");
+        int langChoice = sc.nextInt();
+
+        if (langChoice == 1) {
+            langIndex = 0;
+        } else if (langChoice == 2) {
+            langIndex = 1;
+        } else {
+            System.out.println(RED+"Please enter a valid choice !"+RESET);
+            System.out.println(RED+"Mohon cek inputan anda !"+RESET);
+            continue;
+        }    
+
         String[][] userData = {{"admin","mimin","Admin"},
                                 {"afifah", "fifi", "Staff"},
                                 {"pasha", "pipi", "Staff"},
@@ -88,20 +103,20 @@ public class SistemInventaris {
         String currentRole = "";
 
         System.out.println(YELLOW+"=========================================="+RESET);
-        System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS  |"+RESET);
+        System.out.println(YELLOW+"|   "+messages[langIndex][96]+"   |"+RESET);
         System.out.println(YELLOW+"=========================================="+RESET);
 
         //login
         while (!login) {
             System.out.println("LOGIN");
-            System.out.print("Masukkan Username: ");
+            System.out.print(messages[langIndex][84]+" ");
             String inputUsername = sc.next();
-            System.out.print("Masukkan Password: ");  
+            System.out.print(messages[langIndex][77]+" ");  
             String inputPassword = sc.next();
 
             for (int i = 0; i < userData.length ; i++ ) {
                 if (userData[i][0].equals(inputUsername) && userData[i][1].equals(inputPassword)) {
-                    System.out.println(GREEN+"Berhasil login!"+RESET);
+                    System.out.println(GREEN+messages[langIndex][8]+" "+RESET);
                     login = true;
                     currentUser = inputUsername;
                     currentRole = userData[i][2];
@@ -115,7 +130,7 @@ public class SistemInventaris {
                 }
             }
             if(!login){
-                System.out.println(RED+"\nMohon input data Anda dengan benar !"+RESET);
+                System.out.println(RED+"\n"+messages[langIndex][87]+RESET);
                 System.out.println();
             }
         }
@@ -123,30 +138,30 @@ public class SistemInventaris {
         do {//MENU UTAMA (AWAL)
 
             System.out.println(YELLOW+"=========================================="+RESET);
-            System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
+            System.out.println(YELLOW+"|   "+messages[langIndex][96]+"   |"+RESET);
             System.out.println(YELLOW+"=========================================="+RESET);
             
             if (isAdmin) {
-                System.out.println("Sekarang Anda Berada di "+"Menu: "+GREEN+currentRole+RESET+"\n");
-                System.out.println("|1| Input Data Barang ke Master");
-                System.out.println("|2| Input Data Barang Masuk dan Keluar");
-                System.out.println("|3| Update Data Barang Ke Master");
-                System.out.println("|4| Pencarian Data Barang");
-                System.out.println("|5| Laporan Data Barang");
-                System.out.println("|6| History penggunaan sistem");
-                System.out.println(YELLOW+"|9| Beralih Akun"+RESET);
-                System.out.println(RED+"|0| Keluar"+RESET);
+                System.out.println(messages[langIndex][98]+" "+GREEN+currentRole+RESET+"\n");
+                System.out.println("|1| "+messages[langIndex][28]);
+                System.out.println("|2| "+messages[langIndex][27]);
+                System.out.println("|3| "+messages[langIndex][121]);
+                System.out.println("|4| "+messages[langIndex][89]);
+                System.out.println("|5| "+messages[langIndex][49]);
+                System.out.println("|6| "+messages[langIndex][23]);
+                System.out.println(YELLOW+"|9| "+messages[langIndex][6]+RESET);
+                System.out.println(RED+"|0| "+messages[langIndex][45]+RESET);
                 
             } else if (isStaff) {
-                System.out.println("Sekarang Anda Berada di "+"Menu: "+GREEN+currentRole+RESET+"\n");
-                System.out.println("|1| Input Data Barang Rusak");
-                System.out.println("|2| Pencarian Data Barang");
-                System.out.println("|3| Laporan Data Barang");
-                System.out.println(YELLOW+"|9| Beralih Akun"+RESET);
-                System.out.println(RED+"|0| Keluar"+RESET);
+                System.out.println(messages[langIndex][98]+GREEN+currentRole+RESET+"\n");
+                System.out.println("|1| "+messages[langIndex][31]);
+                System.out.println("|2| "+messages[langIndex][89]);
+                System.out.println("|3| "+messages[langIndex][49]);
+                System.out.println(YELLOW+"|9| "+messages[langIndex][6]+RESET);
+                System.out.println(RED+"|0| "+messages[langIndex][45]+RESET);
             }
 
-            System.out.print("\nPilih Menu: ");
+            System.out.print("\n"+messages[langIndex][91]+" ");
             mainChoice = sc.nextInt();
             sc.nextLine();  
             clear();
@@ -158,7 +173,7 @@ public class SistemInventaris {
                     if (currentRole.equalsIgnoreCase("Admin")) {
                     //|1| Input Data Barang ke Master
                         inputDataMaster();
-                        System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+                        System.out.println(BLUE + "["+messages[langIndex][19]+" " + formattedDateTime  + "]"+ RESET);
 
                         historyPenggunaan.add(new String[] {
                             "Admin", "Input data barang ke master", formattedDateTime
@@ -169,12 +184,12 @@ public class SistemInventaris {
                     } else if (currentRole.equals("Staff")) {
                         //|1| Input Data Barang Rusak
                         boolean ditemukan;
-                        System.out.print("Masukkan berapa jenis barang yang ingin Anda input rusak: ");
+                        System.out.print(messages[langIndex][63]+" ");
                         int jumlahBarangRusak = sc.nextInt();
                         sc.nextLine(); // membersihkan newline dari buffer
 
                         for (int j = 0; j < jumlahBarangRusak; j++) {
-                            System.out.print("Masukkan kode atau nama barang yang rusak: ");
+                            System.out.print(messages[langIndex][73]+" ");
                             String dataBarangRusak = sc.nextLine();
 
                             ditemukan = false;
@@ -193,11 +208,11 @@ public class SistemInventaris {
                                     if (kodeArray[i] != null && namaArray[i] != null &&
                                         (kodeArray[i].equalsIgnoreCase(dataBarangRusak) || namaArray[i].equalsIgnoreCase(dataBarangRusak))) {
                                             System.out.println("\n===== Data Saat Ini =====");
-                                            System.out.println("Kode\t\t: " + kodeArray[i]);
-                                            System.out.println("Nama Barang\t: " + namaArray[i]);
-                                            System.out.println("Jumlah\t\t: " + JmlArray[i]);
-                                            System.out.println("Satuan\t\t: " + SatuanArray[i]);
-                                            System.out.println("Kadaluarsa\t: "+ KadaluarsaArray[i]);
+                                            System.out.println(messages[langIndex][47]+"\t\t: " + kodeArray[i]);
+                                            System.out.println(messages[langIndex][88]+"\t: " + namaArray[i]);
+                                            System.out.println(messages[langIndex][34]+"\t\t: " + JmlArray[i]);
+                                            System.out.println(messages[langIndex][94]+"\t\t: " + SatuanArray[i]);
+                                            System.out.println(messages[langIndex][42]+"\t: "+ KadaluarsaArray[i]);
                                             indeksKategori = kategori;
                                             indeksBarang = i;
                                             ditemukan = true;
@@ -216,7 +231,7 @@ public class SistemInventaris {
                                 String[] SatuanArray = GudangRestoran[indeksKategori * 5 + 3];
                                 String[] KadaluarsaArray = GudangRestoran[indeksKategori * 5 + 4];
 
-                                System.out.print("Masukkan Tanggal Kerusakan (dd-MM-yyyy): ");
+                                System.out.print(messages[langIndex][83]+" ");
                                 String tanggalRusak = sc.next();
                                 DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                                 LocalDate tanggal = LocalDate.from(formatTanggal.parse(tanggalRusak));
@@ -224,27 +239,27 @@ public class SistemInventaris {
                                 sc.nextLine(); // membersihkan newline dari buffer
 
                                 System.out.println();
-                                System.out.println("Masukkan Keterangan Kerusakan:  ");
-                                System.out.println("1. Kadaluarsa");
-                                System.out.println("2. Busuk");
-                                System.out.println("3. Kemasan Rusak");
-                                System.out.println("4. Lainnya");
-                                System.out.print("Masukkan pilihan: ");
+                                System.out.print(messages[langIndex][70]+" ");
+                                System.out.println("1. "+messages[langIndex][42]);
+                                System.out.println("2. "+messages[langIndex][123]);
+                                System.out.println("3. "+messages[langIndex][124]);
+                                System.out.println("4. "+messages[langIndex][125]);
+                                System.out.print(messages[langIndex][126]+" ");
                                 String konfirmasiKeteranganRusak = sc.nextLine();
 
                                 String keteranganRusak;
                                 if (konfirmasiKeteranganRusak.equals("1")) {
-                                    keteranganRusak = "Kadaluarsa";
+                                    keteranganRusak = messages[langIndex][42];
                                 } else if (konfirmasiKeteranganRusak.equals("2")) {
-                                    keteranganRusak = "Busuk";
+                                    keteranganRusak = messages[langIndex][123];
                                 } else if (konfirmasiKeteranganRusak.equals("3")) {
-                                    keteranganRusak = "Kemasan Rusak";
+                                    keteranganRusak = messages[langIndex][124];
                                 } else {
-                                    System.out.println("Tolong masukkan masalah kerusakan!");
+                                    System.out.println(messages[langIndex][127]);
                                     keteranganRusak = sc.nextLine();
                                 }
 
-                                System.out.print("Masukkan Jumlah Kerusakan: ");
+                                System.out.print(messages[langIndex][69]+" ");
                                 int jumlahKerusakan = sc.nextInt();
 
                                 barangRusakList.add(new String[]{
@@ -254,18 +269,18 @@ public class SistemInventaris {
                                 });
 
                                 System.out.println();
-                                System.out.println(GREEN + "Barang berhasil dicatat sebagai rusak." + RESET);
+                                System.out.println(GREEN + messages[langIndex][3] + RESET);
                                 System.out.println(GREEN + "-------------------------------------"+ RESET);
                                 sc.nextLine();
                             } else {
-                                System.out.println(RED +"Note: " + "Barang dengan kode atau nama " + dataBarangRusak + " tidak ditemukan.\n" + RESET);
+                                System.out.println(RED +"Note: " + messages[langIndex][4]+" " + dataBarangRusak + messages[langIndex][116]+" \n" + RESET);
                             }
                         }
                     }
-                    System.out.println(BLUE + "[Data terakhir di update oleh Staff pada tanggal " + now.format(formatter)  + "]"+ RESET);
+                    System.out.println(BLUE + "["+messages[langIndex][20]+" " + now.format(formatter)  + "]"+ RESET);
 
                     historyPenggunaan.add(new String[] {
-                        "Staff", "Input data barang rusak", now.format(formatter)
+                        "Staff", messages[langIndex][32], now.format(formatter)
                     });
                     break;
                     //////////////////////////////////////////////////////////////////////////////////////////
@@ -276,15 +291,15 @@ public class SistemInventaris {
                         boolean konfirmasiUser = false;
                         do {
                             System.out.println(YELLOW+"=========================================="+RESET);
-                            System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS  |"+RESET);
+                            System.out.println(YELLOW+"|   +"+messages[langIndex][96]+"  |"+RESET);
                             System.out.println(YELLOW+"=========================================="+RESET);
-                            System.out.println("Sekarang Anda Berada di "+"Submenu:"+GREEN+" Input Data Barang Masuk dan Keluar"+RESET);
+                            System.out.println(messages[langIndex][99]+" "+GREEN+messages[langIndex][27]+RESET);
                             System.out.println();
-                            System.out.println("|1| Input Data Barang Masuk");
-                            System.out.println("|2| Input Data Barang Keluar");
-                            System.out.println(RED + "|0| Keluar" + RESET);
+                            System.out.println("|1| "+messages[langIndex][25]);
+                            System.out.println("|2| "+messages[langIndex][30]);
+                            System.out.println(RED + "|0| "+messages[langIndex][45] + RESET);
                             System.out.println();
-                            System.out.print("Pilih Menu: ");
+                            System.out.print(messages[langIndex][91]+" ");
                             int userChoice = sc.nextInt();
                             clear();
                             System.out.println();
@@ -294,12 +309,12 @@ public class SistemInventaris {
                             switch (userChoice) {
                                 case 1:
                                 // Input data masuk
-                                System.out.print("Masukkan berapa jenis barang yang ingin anda masukkan: ");
+                                System.out.print(messages[langIndex][64]+" ");
                                 int jumlahBarangInput = sc.nextInt();
                                 sc.nextLine(); // membersihkan newline dari buffer
 
                                 for (int j = 0; j < jumlahBarangInput; j++) {
-                                    System.out.print("Masukkan kode atau nama barang: ");
+                                    System.out.print(messages[langIndex][72]+" ");
                                     String dataBarang = sc.nextLine();
                                     System.out.println();
 
@@ -318,11 +333,13 @@ public class SistemInventaris {
                                         String kategoriJudul = JenisJudul(kategori);
                                         for (int i = 0; i < kodeArray.length; i++) {
                                             if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
+                                                System.out.println(GREEN+messages[langIndex][5]+RESET);
+
                                                 System.out.println(CYAN + "                                            =================================               " + RESET);
                                                 System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
                                                 System.out.println(CYAN + "                                            =================================               " + RESET);
                                                 System.out.println("=========================================================================================================================");
-                                                System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+                                                System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][94]+"    |     "+messages[langIndex][128]+"   |");
                                                 System.out.println("=========================================================================================================================");
                                                 
                                                 if (KadaluarsaArray[i] != " ") {
@@ -330,14 +347,14 @@ public class SistemInventaris {
                                                     long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
 
                                                         if (selisihTanggal.isAfter(hariIni)) {
-                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
+                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][129]);
                                                         } else if (selisihTanggal.isBefore(hariIni)) {
                                                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                                                         } else if (selisihTanggal == hariIni){
                                                             // Tanggal kadaluarsa hari ini
-                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                                         }
                                                 } else {
                                                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-20s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i]," ");
@@ -362,16 +379,16 @@ public class SistemInventaris {
                                         String[] SatuanArray = GudangRestoran[indeksKategori * 5 + 3];
                                         String[] KadaluarsaArray = GudangRestoran[indeksKategori * 5 + 4];
                                         // Menambah jumlah barang
-                                        System.out.print("Masukkan jumlah barang yang ingin ditambahkan: ");
+                                        System.out.print(messages[langIndex][66]+" ");
                                         int jumlahTambah = sc.nextInt();
                                         
                                         sc.nextLine(); // membersihkan newline dari buffer
 
-                                        System.out.println("Perubahan Tanggal Kadaluarsa: ");
-                                        System.out.println("1. Reset Tanggal");
-                                        System.out.println("2. Tambah Tanggal");
-                                        System.out.println("3. Biarkan Tanggal");
-                                        System.out.print("Masukkan pilihan Anda: ");
+                                        System.out.println(messages[langIndex][132]+" ");
+                                        System.out.println("1. "+messages[langIndex][133]);
+                                        System.out.println("2. "+messages[langIndex][134]);
+                                        System.out.println("3. "+messages[langIndex][135]);
+                                        System.out.print(messages[langIndex][126]+" ");
                                         int pilihan = sc.nextInt();
 
                                         int jumlahSebelum, jumlahSetelah;
@@ -381,7 +398,7 @@ public class SistemInventaris {
                                                 jumlahSetelah = jumlahSebelum + jumlahTambah;
                                                 JmlArray[indeksBarang] = String.valueOf(jumlahSetelah);
                                                 KadaluarsaArray[indeksBarang] = " ";
-                                                System.out.println(ORANGE + "Tanggal Kadaluarsa berhasil di reset." + RESET);
+                                                System.out.print(ORANGE + messages[langIndex][106] + RESET);
 
                                                     barangMasukList.add(new String[]{
                                                         kodeArray[indeksBarang], namaArray[indeksBarang], Integer.toString(jumlahSebelum), Integer.toString(jumlahSetelah),
@@ -390,7 +407,7 @@ public class SistemInventaris {
                                                 break;
 
                                             case 2:
-                                                System.out.print("Tambahkan Tanggal Kadaluarsa (dd-MM-yyyy): ");
+                                                System.out.print(messages[langIndex][136]+" ");
                                                 String tanggalKadaluarsa = sc.next();
                                                 LocalDate tanggal = LocalDate.from(format.parse(tanggalKadaluarsa));
 
@@ -401,7 +418,7 @@ public class SistemInventaris {
                                                 jumlahSebelum = Integer.parseInt(JmlArray[indeksBarang]);
                                                 jumlahSetelah = jumlahSebelum + jumlahTambah;
                                                 JmlArray[indeksBarang] = String.valueOf(jumlahSetelah);
-                                                System.out.println(ORANGE + "Tanggal Kadaluarsa Tidak Di Update." + RESET);
+                                                System.out.println(ORANGE + messages[langIndex][107] + RESET);
 
                                                     barangMasukList.add(new String[]{
                                                         kodeArray[indeksBarang], namaArray[indeksBarang], Integer.toString(jumlahSebelum), Integer.toString(jumlahSetelah),
@@ -412,15 +429,15 @@ public class SistemInventaris {
                                         }
 
                                         System.out.println();
-                                        System.out.println(GREEN + "Jumlah barang berhasil ditambahkan." + RESET);
+                                        System.out.println(GREEN + messages[langIndex][37] + RESET);
                                         System.out.println(GREEN + "----------------------------------" + RESET);
 
                                     } else {
-                                        System.out.println(RED + "Note: " +  "Barang dengan kode atau nama " + dataBarang + " tidak ditemukan.\n" + RESET);
+                                        System.out.println(RED + "Note: " +  messages[langIndex][4]+" " + dataBarang + " "+messages[langIndex][118]+"\n" + RESET);
                                     }
 
                                     historyPenggunaan.add(new String[] {
-                                        "Admin", "Input data barang masuk", getFormattedDateTime()
+                                        "Admin", messages[langIndex][26], getFormattedDateTime()
                                     });
 
                                     // LocalDate selisihTanggal;
@@ -466,23 +483,23 @@ public class SistemInventaris {
                                     //     }
                                     sc.nextLine();
                                 }
-                                System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+                                System.out.println(BLUE + "["+messages[langIndex][19]+" " + formattedDateTime  + "]"+ RESET);
                                 System.out.println();
                                 break;
 
                                 case 2:
                                  // Input data keluar
                                 if (!barangRusakList.isEmpty()) {
-                                    System.out.println(RED + "DEAR ADMIN, BARANG-BARANG BERIKUT INI HARUS SEGERA DIKELUARKAN DARI DAFTAR." + RESET);
+                                    System.out.println(RED + messages[langIndex][137] + RESET);
                                     System.out.println(CYAN+"                                                    =======================================");
-                                    System.out.println("                                                    |       LAPORAN DATA BARANG RUSAK     |"      );
+                                    System.out.println("                                                    |       "+messages[langIndex][56]+"     |"      );
                                     System.out.println("                                                    ======================================="+RESET);
                                     System.out.println("============================================================================================================================================");
-                                    System.out.println("| KODE   |       Nama Barang       | Jumlah |     Satuan     |     Kadaluarsa    | Tanggal Rusak | Keterangan Kerusakan | Jumlah Kerusakan |");
+                                    System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][34]+" |     "+messages[langIndex][94]+"     |     "+messages[langIndex][42]+"    | "+messages[langIndex][103]+" | "+messages[langIndex][46]+" | "+messages[langIndex][39]+" |");
                                     System.out.println("============================================================================================================================================");
 
                                         for (String[] detailBarang : barangRusakList) {
-                                            System.out.printf("| %-6s | %-23s |    %-4.9s| %-14s |     %-13s |  %-11s  | %-21s|        %-10s|\n",
+                                            System.out.printf("| %-6s | %-23s |    %-4.9s| %-14s |     %-13s  |  %-11s  | %-21s|        %-10s|\n",
                                             detailBarang[0], detailBarang[1], detailBarang[2], detailBarang[3], detailBarang[4], detailBarang[5],
                                             detailBarang[6], detailBarang[7]);
                                         }
@@ -490,12 +507,12 @@ public class SistemInventaris {
                                             System.out.println("============================================================================================================================================");
                                             System.out.println();
                                                         }
-                                    System.out.print("Masukkan berapa jenis barang yang ingin Anda input keluar: ");
+                                    System.out.print(messages[langIndex][65]+" ");
                                     jumlahBarangInput = sc.nextInt();
                                     sc.nextLine(); // membersihkan newline dari buffer
 
                                     for (int j = 0; j < jumlahBarangInput; j++) {
-                                        System.out.print("Masukkan kode atau nama barang: ");
+                                        System.out.print(messages[langIndex][72]+" ");
                                         String dataBarang = sc.nextLine();
 
                                     ditemukan = false;
@@ -513,11 +530,12 @@ public class SistemInventaris {
                                         String kategoriJudul = JenisJudul(kategori);
                                         for (int i = 0; i < kodeArray.length; i++) {
                                             if (kodeArray[i].equalsIgnoreCase(dataBarang) || namaArray[i].equalsIgnoreCase(dataBarang)) {
+                                                System.out.println(GREEN+messages[langIndex][5]+RESET);
                                                 System.out.println(CYAN + "                                            =================================               " + RESET);
                                                 System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
                                                 System.out.println(CYAN + "                                            =================================               " + RESET);
                                                 System.out.println("=========================================================================================================================");
-                                                System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+                                                System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][42]+"    |     "+messages[langIndex][128]+"   |");
                                                 System.out.println("=========================================================================================================================");
                                                 
                                                 if (KadaluarsaArray[i] != " ") {
@@ -529,10 +547,10 @@ public class SistemInventaris {
                                                         } else if (selisihTanggal.isBefore(hariIni)) {
                                                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                                                         } else if (selisihTanggal == hariIni){
                                                             // Tanggal kadaluarsa hari ini
-                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                                         }
                                                 } else {
                                                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-20s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i]," ");
@@ -557,7 +575,7 @@ public class SistemInventaris {
                                         String[] SatuanArray = GudangRestoran[indeksKategori * 5 + 3];
                                         String[] KadaluarsaArray = GudangRestoran[indeksKategori * 5 + 4];
                                         // Mengurangi jumlah barang
-                                        System.out.print("Masukkan jumlah barang yang ingin dikeluarkan: ");
+                                        System.out.print(messages[langIndex][67]+" ");
                                         int jumlahKurang = sc.nextInt();
                                         sc.nextLine(); // membersihkan newline dari buffer
 
@@ -574,7 +592,7 @@ public class SistemInventaris {
                                                 });
 
                                             System.out.println();
-                                            System.out.println(GREEN + "Jumlah barang berhasil dikurangi." + RESET);
+                                            System.out.println(GREEN + messages[langIndex][36] + RESET);
                                             System.out.println(GREEN + "---------------------------------" + RESET);
 
                                         } else if (jumlahSebelum == jumlahKurang) {
@@ -588,19 +606,18 @@ public class SistemInventaris {
                                                 });
 
                                             System.out.println();
-                                            System.out.println(RED + "Jumlah barang berhasil dikurangi. JUMLAH STOK KOSONG, SEGERA RE-STOK!!" + RESET);
+                                            System.out.println(RED + messages[langIndex][138] + RESET);
                                             System.out.println(RED + "----------------------------------------------------------------------" + RESET);
                                         
                                         } else  {
                                             jumlahSetelah = jumlahSebelum;
-                                            System.out.println(RED + "Jumlah barang yang Anda ingin dikeluarkan lebih besar dari stok. Data tetap." + RESET);
+                                            System.out.println(RED + messages[langIndex][38] + RESET);
                                             System.out.println(RED + "---------------------------------------------------------------------------"+ RESET);
                                         }
                                         JmlArray[indeksBarang] = String.valueOf(jumlahSetelah);
                                         
                                     } else {
-                                        System.out.println(RED + "Note: " + "Barang dengan kode atau nama " + dataBarang + " tidak ditemukan.\n" + RESET);
-                                    }
+                                        System.out.println(RED + "Note: " + messages[langIndex][4]+" " + dataBarang + " "+messages[langIndex][116]+".\n" + RESET);                                    }
                                     
                                     // Menghapus Barang rusak jika sudah di keluarkan
                                     if(!barangRusakList.isEmpty()) {
@@ -638,21 +655,21 @@ public class SistemInventaris {
                                                 System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
                                                 System.out.println(CYAN + "                                            =================================               " + RESET);
                                                 System.out.println("=========================================================================================================================");
-                                                System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+                                                System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][42]+"    |     "+messages[langIndex][128]+"   |");
                                                 System.out.println("=========================================================================================================================");
                                                 
                                                 if (KadaluarsaArray[i] != " ") {
                                                     selisihTanggal = LocalDate.parse(KadaluarsaArray[i], format);
                                                     long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
                                                         if (selisihTanggal.isAfter(hariIni)) {
-                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
+                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][130]);
                                                         } else if (selisihTanggal.isBefore(hariIni)) {
                                                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                                                         } else if (selisihTanggal == hariIni){
                                                             // Tanggal kadaluarsa hari ini
-                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                                         }
                                                 } else {
                                                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-20s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i]," ");
@@ -666,12 +683,12 @@ public class SistemInventaris {
                                     
 
                                     historyPenggunaan.add(new String[] {
-                                        "Admin", "Input data barang keluar", getFormattedDateTime()
+                                        "Admin ", messages[langIndex][30], getFormattedDateTime()
                                     });
                                 }
 
                                 
-                                System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+                                System.out.println(BLUE + "["+messages[langIndex][19]+" " + formattedDateTime  + "]"+ RESET);
                                 System.out.println();
                                 break;
 
@@ -686,10 +703,10 @@ public class SistemInventaris {
                         //Pencarian Barang
                         cariDataBarang();
 
-                        System.out.println(BLUE + "[Pencarian terakhir dilakukan oleh Staff pada tanggal " + formattedDateTime  + "]"+ RESET);
+                        System.out.println(BLUE + "["+messages[langIndex][20]+" " + formattedDateTime  + "]"+ RESET);
 
                         historyPenggunaan.add(new String[] {
-                            "Staff", "Membuka Pencarian Barang", now.format(formatter)
+                            "Staff ", messages[langIndex][85], now.format(formatter)
                         });
                     }
                         System.out.println();
@@ -700,16 +717,16 @@ public class SistemInventaris {
                         if (currentRole.equals("Admin")) {
                             // update data barang
                             TampilkanStockSekarang();
-                            System.out.print(ORANGE+"Masukkan nama atau kode item yang akan diupdate: "+RESET);
+                            System.out.print(ORANGE+messages[langIndex][75]+" "+RESET);
                             String searchTerm = sc.nextLine();
                     
                             // Pilih jenis update
-                            System.out.println("Pilih jenis update:");
-                            System.out.println("1. Kode");
-                            System.out.println("2. Nama Barang");
-                            System.out.println("3. Satuan Barang");
-                            System.out.println("4. Tanggal Kadaluarsa");
-                            System.out.print(ORANGE+"Masukkan pilihan (1/2/3/4): "+RESET);
+                            System.out.println(messages[langIndex][90]);
+                            System.out.println("1. "+messages[langIndex][47]);
+                            System.out.println("2. "+messages[langIndex][88]);
+                            System.out.println("3. "+messages[langIndex][95]);
+                            System.out.println("4. "+messages[langIndex][104]);
+                            System.out.print(ORANGE+messages[langIndex][78]+" "+RESET);
                             int choice = sc.nextInt();
                     
                             // Cari item dan update informasinya
@@ -718,7 +735,7 @@ public class SistemInventaris {
                             // Tampilkan array yang sudah diupdate
                             if (itemDitemukan) {
                                 System.out.println();
-                                System.out.println(GREEN + "Data berhasil diupdate!" + RESET);
+                                System.out.println(GREEN + messages[langIndex][18] + RESET);
                                 System.out.println();
 
                                 LocalDate selisihTanggal;
@@ -736,20 +753,20 @@ public class SistemInventaris {
                                             System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
                                             System.out.println(CYAN + "                                            =================================               " + RESET);
                                             System.out.println("=========================================================================================================================");
-                                            System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+                                            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][94]+"    |     "+messages[langIndex][128]+"   |");
                                             System.out.println("=========================================================================================================================");
                                             
                                             selisihTanggal = LocalDate.parse(KadaluarsaArray[i], format);
                                             long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
                                             if (selisihTanggal.isAfter(hariIni)) {
-                                                System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
+                                                System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][130]);
                                             } else if (selisihTanggal.isBefore(hariIni)) {
                                                 // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                                 System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                                        kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                                        kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                                             } else {
                                                 // Tanggal kadaluarsa hari ini
-                                                System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                                                System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                             }
                                             System.out.println("=========================================================================================================================");
                                             System.out.println();
@@ -760,12 +777,12 @@ public class SistemInventaris {
                                         
                                 } else {
                                     System.out.println();
-                                    System.out.println(RED+ "Item tidak ditemukan."+ RESET);
+                                    System.out.println(RED+ messages[langIndex][33]+ RESET);
                                 }
-                                System.out.println(BLUE + "[Data terakhir di update oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+                                System.out.println(BLUE + "["+messages[langIndex][19]+" " + formattedDateTime  + "]"+ RESET);
 
                                     historyPenggunaan.add(new String[] {
-                                        "Admin", "Update data barang", now.format(formatter)
+                                        "Admin ", messages[langIndex][120], now.format(formatter)
                                     });
                             
                                 
@@ -773,19 +790,19 @@ public class SistemInventaris {
                             boolean konfirmasiUser = true;
                             do {
                                 System.out.println(YELLOW+"=========================================="+RESET);
-                                System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
+                                System.out.println(YELLOW+"|   "+messages[langIndex][96]+"   |"+RESET);
                                 System.out.println(YELLOW+"=========================================="+RESET);
-                                System.out.println("Sekarang Anda Berada di "+"Submenu:"+GREEN+" Laporan Data Barang"+RESET);
+                                System.out.println(messages[langIndex][99]+" "+GREEN+" "+messages[langIndex][49]+RESET);
                                 System.out.println();
-                                System.out.println("|1| Laporan Data Barang Masuk");
-                                System.out.println("|2| Laporan Data Barang Keluar");
-                                System.out.println("|3| Laporan Data Barang Rusak");
-                                System.out.println("|4| Laporan Stock Barang Sekarang");
-                                System.out.println("|5| Laporan Stock Paling Banyak Keluar");
-                                System.out.println("|6| Laporan Data Barang Habis Atau Sedikit");
-                                System.out.println(RED +"|0| KELUAR" + RESET);
+                                System.out.println("|1| "+messages[langIndex][52]);
+                                System.out.println("|2| "+messages[langIndex][50]);
+                                System.out.println("|3| "+messages[langIndex][55]);
+                                System.out.println("|4| "+messages[langIndex][59]);
+                                System.out.println("|5| "+messages[langIndex][61]);
+                                System.out.println("|6| "+messages[langIndex][57]);
+                                System.out.println(RED +"|0| "+messages[langIndex][45] + RESET);
                                 System.out.println();
-                                System.out.print("Pilih Menu: ");
+                                System.out.print(messages[langIndex][91]+" ");
                                 int laporanUser = sc.nextInt();
                                 clear();
                                 
@@ -795,7 +812,7 @@ public class SistemInventaris {
                                         TampilkanBarangMasuk(barangMasukList);
 
                                         historyPenggunaan.add(new String[] {
-                                        "Staff", "Melihat Laporan Barang Masuk", now.format(formatter)
+                                        "Staff", messages[langIndex][139], now.format(formatter)
                                         });
                                         break;
                                     case 2:
@@ -803,28 +820,28 @@ public class SistemInventaris {
                                         TampilkanBarangKeluar(barangKeluarList);
 
                                         historyPenggunaan.add(new String[] {
-                                        "Staff", "Melihat Laporan Barang Keluar", now.format(formatter)
+                                        "Staff", messages[langIndex][140], now.format(formatter)
                                         });
                                         break;
                                     case 3:
                                         // Laporan barang rusak
                                         if (!barangRusakList.isEmpty()) {
-                                            System.out.println(GREEN + "DEAR STAFF, BERIKUT INI ADALAH DATA BARANG YANG SUDAH ANDA CATAT SEBAGAI BARANG RUSAK." + RESET);
+                                            System.out.println(GREEN + messages[langIndex][22] + RESET);
                                             tampilkanLaporanBarangRusak(barangRusakList);
                                         } else {
-                                            System.out.println(GREEN + "TIDAK ADA LAPORAN BARANG RUSAK.\n" + RESET);
+                                            System.out.println(GREEN + messages[langIndex][117]+"\n" + RESET);
                                         }
 
                                         historyPenggunaan.add(new String[] {
-                                        "Staff", "Melihat Laporan Barang Rusak", now.format(formatter)
+                                        "Staff",  messages[langIndex][141], now.format(formatter)
                                         });
                                         break;
                                     case 4:
                                         //Laporan Stock Barang sekarang
                                         TampilkanStockSekarang();
-                                        System.out.println(BLUE + "[Data terakhir dlihat oleh Staff pada tanggal " + formattedDateTime  + "]"+ RESET);
+                                        System.out.println(BLUE + "["+ messages[langIndex][142]+" " + formattedDateTime  + "]"+ RESET);
                                         historyPenggunaan.add(new String[] {
-                                        "Staff", "Melihat Laporan Stok Saat ini", now.format(formatter)
+                                        "Staff", messages[langIndex][143], now.format(formatter)
                                         });
 
                                         break;
@@ -832,14 +849,14 @@ public class SistemInventaris {
                                         LaporanBarangPalingBanyakKeluar();
 
                                         historyPenggunaan.add(new String[] {
-                                        "Staff", "Melihat Laporan Barang Paling Banyak Keluar", now.format(formatter)
+                                        "Staff", messages[langIndex][144], now.format(formatter)
                                         });
                                         break;
                                     case 6:
                                         // Laporan barang sedikit atau habis
                                         TampilkanBarangHabis();
                                         historyPenggunaan.add(new String[] {
-                                        "Staff", "Melihat Laporan Barang Habis", now.format(formatter)
+                                        "Staff", messages[langIndex][145], now.format(formatter)
                                         });
                                         break;
                                     case 0:
@@ -858,10 +875,10 @@ public class SistemInventaris {
                             cariDataBarang();
                         }
                                 
-                        System.out.println(BLUE + "[Pencarian data terakhir dilakukan oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+                        System.out.println(BLUE + "["+ messages[langIndex][146]+" " + formattedDateTime  + "]"+ RESET);
 
                         historyPenggunaan.add(new String[] {
-                            "Admin", "Mencari data barang", now.format(formatter)
+                            "Admin", messages[langIndex][86], now.format(formatter)
                         });
                             System.out.println();
                             break;
@@ -870,19 +887,19 @@ public class SistemInventaris {
                         boolean konfirmasiUser = true;
                         do {
                             System.out.println(YELLOW+"=========================================="+RESET);
-                            System.out.println(YELLOW+"|   SELAMAT DATANG DI SISTEM INVENTARIS   |"+RESET);
+                            System.out.println(YELLOW+"|   "+messages[langIndex][96]+"   |"+RESET);
                             System.out.println(YELLOW+"=========================================="+RESET);
-                            System.out.println("Sekarang Anda Berada di "+"Submenu:"+GREEN+" Laporan Data Barang"+RESET);
+                            System.out.println(messages[langIndex][99]+" "+GREEN+messages[langIndex][49]+RESET);
                             System.out.println();
-                            System.out.println("|1| Laporan Data Barang Masuk");
-                            System.out.println("|2| Laporan Data Barang Keluar");
-                            System.out.println("|3| Laporan Data Barang Rusak");
-                            System.out.println("|4| Laporan Stock Barang Sekarang");
-                            System.out.println("|5| Laporan Stock Paling Banyak Keluar");
-                            System.out.println("|6| Laporan Data Barang Habis Atau Sedikit");
-                            System.out.println(RED +"|0| KELUAR" + RESET);
+                            System.out.println("|1| "+messages[langIndex][52]);
+                            System.out.println("|2| "+messages[langIndex][50]);
+                            System.out.println("|3| "+messages[langIndex][55]);
+                            System.out.println("|4| "+messages[langIndex][59]);
+                            System.out.println("|5| "+messages[langIndex][61]);
+                            System.out.println("|6| "+messages[langIndex][57]);
+                            System.out.println(RED +"|0| "+messages[langIndex][45] + RESET);
                             System.out.println();
-                            System.out.print("Pilih Menu: ");
+                            System.out.print(messages[langIndex][91]+" ");
                             int laporanUser = sc.nextInt();
                             
                             switch (laporanUser) {
@@ -891,7 +908,7 @@ public class SistemInventaris {
                                     TampilkanBarangMasuk(barangMasukList);
 
                                     historyPenggunaan.add(new String[] {
-                                    "Admin", "Melihat Laporan Barang Masuk", now.format(formatter)
+                                    "Admin", messages[langIndex][139], now.format(formatter)
                                     });
                                     break;
                                 case 2:
@@ -899,30 +916,30 @@ public class SistemInventaris {
                                     TampilkanBarangKeluar(barangKeluarList);
 
                                     historyPenggunaan.add(new String[] {
-                                    "Admin", "Melihat Laporan Barang Keluar", now.format(formatter)
+                                    "Admin", messages[langIndex][140], now.format(formatter)
                                     });
                                     break;
                                 case 3:
                                     // Laporan barang rusak
                                     if (!barangRusakList.isEmpty()) {
-                                        System.out.println(RED + "NOTE : DEAR ADMIN, SEGERA KELUARKAN BARANG BERIKUT INI KARENA MENGALAMI KERUSAKAN." + RESET);
+                                        System.out.println(RED + "NOTE : "+messages[langIndex][21] + RESET);
                                         tampilkanLaporanBarangRusak(barangRusakList);
                                     } else {
-                                        System.out.println(GREEN + "Belum ada data laporan barang rusak dari Staff" + RESET);
+                                        System.out.println(GREEN + messages[langIndex][10] + RESET);
                                         System.out.println();
                                     }
 
                                     historyPenggunaan.add(new String[] {
-                                    "Admin", "Melihat Laporan Barang Keluar", now.format(formatter)
+                                    "Admin", messages[langIndex][141], now.format(formatter)
                                     });
                                     break;
                                 case 4:
                                     //Laporan Stock Barang sekarang
                                     TampilkanStockSekarang();
-                                    System.out.println(BLUE + "[Data terakhir dilihat oleh Admin pada tanggal " + formattedDateTime  + "]"+ RESET);
+                                    System.out.println(BLUE + "["+messages[langIndex][147]+" " + formattedDateTime  + "]"+ RESET);
 
                                     historyPenggunaan.add(new String[] {
-                                    "Admin", "Melihat Laporan Stok Saat Ini", now.format(formatter)
+                                    "Admin", messages[langIndex][143], now.format(formatter)
                                     });
 
                                     break;
@@ -931,7 +948,7 @@ public class SistemInventaris {
                                     LaporanBarangPalingBanyakKeluar();
 
                                     historyPenggunaan.add(new String[] {
-                                    "Admin", "Melihat Laporan Barang Paling Banyak Keluar", now.format(formatter)
+                                    "Admin", messages[langIndex][148], now.format(formatter)
                                     });
                                     break;
                                 case 6:
@@ -939,7 +956,7 @@ public class SistemInventaris {
                                     TampilkanBarangHabis();
 
                                     historyPenggunaan.add(new String[] {
-                                    "Admin", "Melihat Laporan Barang Habis", now.format(formatter)
+                                    "Admin", messages[langIndex][145], now.format(formatter)
                                     });
                                     break;
                                 case 0:
@@ -957,14 +974,14 @@ public class SistemInventaris {
                     case 9:
                     //|9|Beralih Akun
                         System.out.println(YELLOW+"=========================================="+RESET);
-                        System.out.println(GREEN+"Berhasil Logout dari " +currentRole + ": " + currentUser+RESET);
-                        System.out.println("Silahkan login !");
+                        System.out.println(GREEN+messages[langIndex][9]+" " +currentRole + ": " + currentUser+RESET);
+                        System.out.println(messages[langIndex][100]);
                         // Kembali ke proses login
                         boolean switchSuccess = false;
                         while (true) {
-                            System.out.print("Masukkan Username: ");
+                            System.out.print(messages[langIndex][84]+" ");
                             String switchUsername = sc.next();
-                            System.out.print("Masukkan Password: ");
+                            System.out.print(messages[langIndex][77]+" ");
                             String switchPassword = sc.next();
 
                             for (int i = 0; i < userData.length; i++) {
@@ -977,46 +994,346 @@ public class SistemInventaris {
                             }
 
                             if (switchSuccess) {
-                                System.out.println(GREEN+"Beralih Akun Berhasil"+RESET);
+                                System.out.println(GREEN+messages[langIndex][7]+RESET);
                                 isStaff = !isStaff;
                                 isAdmin = !isAdmin;
                                 break;
                             } else {
-                                System.out.println("Login gagal. Silahkan coba lagi.");
+                                System.out.println(RED+messages[langIndex][62]+RESET);
                             }
                         }
                         break;
                     /////////////////////////////////////////////////////////////////////////////////////////////////        
                     case 0:
-                        System.out.println(YELLOW+"Anda telah Logout" +RESET);
-                        System.out.println("Terimakasih ! ^_^");
+                    System.out.println(YELLOW+messages[langIndex][0] +RESET);
+                    System.out.println();
+                    System.out.println(
+                                "Terimakasih telah menggunakan Sistem Inventaris!\n"+
+                                "Program ini dibuat oleh:\n"+
+                                "- Adnan Arju Maulana Pasha\n"+
+                                "- Afifah Khoirunnisa\n"+
+                                "- Mohammad Adri Favian\n"
+                    );
                         exit = true;
                         break;
 
                     default:
-                        System.out.println(RED+"Pilihan tidak valid !"+RESET);
+                        System.out.println(RED+messages[langIndex][92]+RESET);
                         break;
                     }
                 break;
             } while (isLoop);
         } while (!exit);    
         //selamat anda berada di akhir program :D
-        sc.close();
+        break;// break loop memilih bahasa
+    }
     }
 
 
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////    
+
+    //Fungsi Data Bahasa
+    static String[][] messages = {
+        // Bahasa Indonesia
+        {
+            "Anda telah Logout",//0
+            "Apakah Anda ingin mengganti tanggal kadaluarsa? (ya/tidak): ",//1
+            "Apakah Anda ingin me-reset tanggal kadaluarsa?(ya/tidak): ",//2
+            "Barang berhasil dicatat sebagai barang rusak.",//3
+            "Barang dengan kode atau nama ",//4
+            "Barang ditemukan!",//5
+            "Beralih Akun",//6
+            "Berhasil Beralih Akun",//7
+            "Berhasil login!",//8
+            "Berhasil Logout dari ",//9
+            "Belum ada data laporan barang rusak dari Staff",//10
+            "Belum ada data history penggunaan sistem ini.",//11
+            "CEK KEMBALI DATA BARANG NANTI ATAU BESOK",//12
+            "DAFTAR IKAN LAUT",//13
+            "DAFTAR HIDANGAN LAUT",//14
+            "DAFTAR BUMBU MASAKAN",//15
+            "DAFTAR BAHAN MINUMAN",//16
+            "Data barang baru telah disimpan!",//17
+            "Data berhasil diupdate!",//18
+            "Data terakhir di update oleh Admin pada tanggal ",//19
+            "Data terakhir di update oleh Staff pada tanggal ",//20
+            "DEAR ADMIN, SEGERA KELUARKAN BARANG BERIKUT INI KARENA MENGALAMI KERUSAKAN.",//21
+            "DEAR STAFF, BERIKUT INI ADALAH DATA BARANG YANG SUDAH ANDA CATAT SEBAGAI BARANG RUSAK.",//22
+            "History penggunaan sistem",//23
+            "HISTORY PENGGUNAAN SISTEM",//24
+            "Input Data Barang Masuk",//25
+            "Input Data Barang masuk",//26
+            "Input Data Barang Masuk dan Keluar",//27
+            "Input Data Barang ke Master",//28
+            "Input data barang ke master",//29
+            "Input Data Barang Keluar",//30
+            "Input Data Barang Rusak",//31
+            "Input data barang rusak",//32
+            "Item tidak ditemukan.",//33
+            "Jumlah",//34
+            "Jumlah Barang",//35
+            "Jumlah barang berhasil dikurangi.",//36
+            "Jumlah barang berhasil ditambahkan.",//37
+            "Jumlah barang yang Anda ingin dikeluarkan lebih besar dari stok. Data tetap.",//38
+            "Jumlah Kerusakan",//39
+            "Jumlah Saat ini",//40
+            "Jumlah Sebelum",//41
+            "Kadaluarsa",//42
+            "kategori tidak valid",//43
+            "Kegiatan",//44
+            "Keluar",//45
+            "keterangan Kerusakan",//46
+            "Kode",//47
+            "KODE",//48
+            "Laporan Data Barang",//49
+            "Laporan Data Barang Keluar",//50
+            "LAPORAN DATA BARANG KELUAR",//51
+            "Laporan Data Barang Masuk",//52
+            "LAPORAN DATA BARANG MASUK",//53
+            "LAPORAN DATA BARANG PALING BANYAK KELUAR",//54
+            "Laporan Data Barang Rusak",//55
+            "LAPORAN DATA BARANG RUSAK",//56
+            "Laporan Data Barang Sedikit atau Habis",//57
+            "LAPORAN DATA BARANG SEDIKIT ATAU HABIS",//58
+            "Laporan Stock Barang Sekarang",//59
+            "LAPORAN STOCK BARANG SEKARANG",//60
+            "Laporan Stock Paling Banyak Keluar",//61
+            "Login gagal. Silahkan coba lagi !",//62
+            "Masukkan berapa jenis barang rusak yang ingin Anda input: ",//63
+            "Masukkan berapa jenis barang yang ingin Anda masukkan: ",//64
+            "Masukkan berapa jenis barang yang ingin Anda keluarkan: ",//65
+            "Masukkan jumlah barang yang ingin ditambahkan: ",//66
+            "Masukkan jumlah barang yang ingin dikeluarkan: ",//67
+            "Masukkan jumlah baru: ",//68
+            "Masukkan Jumlah Kerusakan: ",//69
+            "Masukkan keterangan Kerusakan: ",//70
+            "Masukkan kode baru: ",//71
+            "Masukkan kode atau nama barang: ",//72
+            "Masukkan kode atau nama barang yang rusak: ",//73
+            "Masukkan kode atau nama barang yang ingin dicari: ",//74
+            "Masukkan nama atau kode item yang akan diupdate: ",//75
+            "Masukkan nama baru: ",//76
+            "Masukkan Password: ",//77
+            "Masukkan Pilihan (1/2/3/4): ",//78
+            "Masukkan satuan baru (kg/buah/liter/galon/box/lainnya): ",//79
+            "Masukkan Tanggal Kadaluarsa Baru: ",//80
+            "Masukkan Tanggal Kadaluarsa (dd-MM-yyyy): ",//81
+            "Masukkan Tanggal Kadaluarsa Baru (dd-MM-yyyy): ",//82
+            "Masukkan Tanggal Kerusakan (dd-MM-yyyy): ",//83
+            "Masukkan Username: ",//84
+            "Membuka Pencarian Barang",//85
+            "Mencari data barang",//86
+            "Mohon input data anda dengan benar !",//87
+            "Nama Barang",//88
+            "Pencarian Data Barang",//89
+            "Pilih jenis udpate:",//90
+            "Pilih Menu: ",//91
+            "Pilihan tidak valid !",//92
+            "Program ini dibuat oleh:",//93
+            "Satuan",//94
+            "Satuan Barang",//95
+            "SELAMAT DATANG DI SISTEM INVENTARIS",//96
+            "SEGERA RE-STOCK BARANG-BARANG !",//97
+            "Sekarang Anda Berada di Menu: ",//98
+            "Sekarang Anda Berada di Submenu: ",//99
+            "Silahkan login Kembali !",//100
+            "Silahkan input barang terlebih dahulu !",//101
+            "Tanggal Barang di-Input",//102
+            "Tanggal Rusak",//103
+            "Tanggal Kadaluarsa",//104
+            "Tanggal kadaluarsa berhasil di ganti.",//105
+            "Tanggal kadaluarsa berhasil di reset.",//106
+            "Tanggal Kadaluarsa Tidak Di Update.",//107
+            "Tanggal Penggunaan",//108
+            "TERDAPAT STOK BARANG SEDIKIT DAN/ATAU HABIS",//109
+            "Terimakasih ",//110
+            "tidak",//111
+            "tidak ada barang yang di-input.",//112
+            "tidak ada barang yang dikeluarkan.",//113
+            "tidak ada barang yang rusak.",//114
+            "TIDAK ADA STOK BARANG SEDIKIT DAN/ATAU HABIS",//115
+            "tidak ditemukan.",//116
+            "TIDAK ADA LAPORAN BARANG RUSAK.",//117
+            "tidak ditemukan.",//118
+            "Update Data",//119
+            "Update data barang",//120
+            "Update Data Barang Ke Master",//121
+            "ya",//122
+            "Busuk",//123
+            "Kemasan Rusak",//124
+            "Lainnya",//125
+            "Masukkan pilihan: ",//126
+            "Tolong masukkan masalah kerusakan !",//127
+            "Kadaluarsa dalam",//128
+            "Sudah Kadaluarsa",//129
+            "hari",//130
+            "Kadaluarsa Hari Ini",//131
+            "Perubahan Tanggal Kadaluarsa:",//132
+            "Reset Tanggal",//133
+            "Tambah Tanggal",//134
+            "Biarkan Tanggal",//135
+            "Tambahkan Tanggal Kadaluarsa (dd-MM-yyyy):",//136
+            "DEAR ADMIN, BARANG-BARANG BERIKUT INI HARUS SEGERA DIKELUARKAN DARI DAFTAR.",//137
+            "Jumlah barang berhasil dikurangi. JUMLAH STOK KOSONG, SEGERA RE-STOK!!",//138
+            "Melihat Laporan Barang Masuk",//139
+            "Melihat Laporan Barang Keluar",//140
+            "Melihat Laporan Barang Rusak",//141
+            "Data terakhir dlihat oleh Staff pada tanggal",//142
+            "Melihat Laporan Stok Saat Ini",//143
+            "Melihat Laporan Barang Paling Banyak Keluar",//144
+            "Melihat Laporan Barang Habis",//145
+            "Pencarian data terakhir dilakukan oleh Admin pada tanggal",//146
+            "Data terakhir dilihat oleh Admin pada tanggal",//147
+            "Melihat Laporan Barang Paling Banyak Keluar",//148
+            "(kg/buah/liter/galon/box/bungkus/lainnya)",//149
+            "MOHON MAAF, KODE SUDAH TERSEDIA, MOHON MASUKKAN ULANG KODE.",//150
+            "Mohon maaf, kode yang Anda Masukkan tidak valid.",//151
+            "FORMAT KODE",//152
+            "MOHON MAAF, NAMA SUDAH TERSEDIA, MOHON MASUKKAN ULANG NAMA.",//153
+        },
+        // English
+        {
+            "You have logged out.",//0
+            "Do you want to change the expiration date? (yes/no):",//1
+            "Do you want to reset the expiration date? (yes/no):",//2
+            "Item successfully recorded as damaged item.",//3
+            "Item with code or name",//4
+            "Item found!",//5
+            "Switch Account",//6
+            "Successfully switched account.",//7
+            "Successfully logged in!",//8
+            "Successfully logged out from",//9
+            "No damaged items report data from Staff yet.",//10
+            "No history data of system usage.",//11
+            "CHECK AGAIN ON THE ITEM DATA LATER OR TOMORROW",//12
+            "LIST OF SEAFOOD",//13
+            "LIST OF SEAFOOD DISHES",//14
+            "LIST OF KITCHEN SPICES",//15
+            "LIST OF BEVERAGE INGREDIENTS",//16
+            "New item data has been saved!",//17
+            "Data successfully updated!",//18
+            "Last data update by Admin on",//19
+            "Last data update by Staff on",//20
+            "DEAR ADMIN, PLEASE REMOVE THE FOLLOWING ITEMS AS THEY ARE DAMAGED.",//21
+            "DEAR STAFF, HERE IS THE DATA OF ITEMS YOU HAVE MARKED AS DAMAGED.",//22
+            "System usage history",//23
+            "SYSTEM USAGE HISTORY",//24
+            "Input Incoming Items Data",//25
+            "Input Incoming items Data",//26
+            "Input Incoming and Outgoing Items Data",//27
+            "Input Items to Master",//28
+            "Input items to master",//29
+            "Input Outgoing Items Data",//30
+            "Input Damaged Items Data",//31
+            "Input damaged items data",//32
+            "Item not found.",//33
+            "Quantity",//34
+            "Quantity of Items",//35
+            "Quantity of items successfully reduced.",//36
+            "Quantity of items successfully added.",//37
+            "The quantity of items you want to take out is greater than the stock. Data remains.",//38
+            "Quantity of Damage",//39
+            "Current Quantity",//40
+            "Quantity Before",//41
+            "Expired",//42
+            "invalid category",//43
+            "Activity",//44
+            "Exit",//45
+            "Damage Description",//46
+            "Code",//47
+            "CODE",//48
+            "Report of Items Data",//49
+            "Report of Outgoing Items Data",//50
+            "REPORT OF OUTGOING ITEMS DATA",//51
+            "Report of Incoming Items Data",//52
+            "REPORT OF INCOMING ITEMS DATA",//53
+            "REPORT OF MOST OUTGOING ITEMS",//54
+            "Report of Damaged Items Data",//55
+            "REPORT OF DAMAGED ITEMS DATA",//56
+            "Report of Few or Empty Items",//57
+            "REPORT OF FEW OR EMPTY ITEMS",//58
+            "Current Stock Report",//59
+            "CURRENT STOCK REPORT",//60
+            "Report of Most Outgoing Stock",//61
+            "Login failed. Please try again !",//62
+            "Enter how many types of damaged items you want to input:",//63
+            "Enter how many types of items you want to input:",//64
+            "Enter how many types of items you want to take out:",//65
+            "Enter the quantity of items you want to add:",//66
+            "Enter the quantity of items you want to take out:",//67
+            "Enter the new quantity:",//68
+            "Enter Quantity of Damage:",//69
+            "Enter Damage Description:",//70
+            "Enter new code:",//71
+            "Enter code or name of the item:",//72
+            "Enter code or name of the damaged item:",//73
+            "Enter code or name of the item to search:",//74
+            "Enter the name or code of the item to be updated:",//75
+            "Enter new name:",//76
+            "Enter Password:",//77
+            "Enter Choice (1/2/3/4):",//78
+            "Enter new unit (kg/piece/litre/galon/box/other):",//79
+            "Enter New Expiration Date:",//80
+            "Enter Expiration Date (dd-MM-yyyy):",//81
+            "Enter New Expiration Date (dd-MM-yyyy):",//82
+            "Enter Date of Damage (dd-MM-yyyy):",//83
+            "Enter Username:",//84
+            "Opening Item Search",//85
+            "Searching for item data",//86
+            "Please input your data correctly !",//87
+            "Item Name",//88
+            "Search for Items Data",//89
+            "Choose the type of update:",//90
+            "Choose Menu:",//91
+            "Invalid choice !",//92
+            "This program is created by:",//93
+            "Unit",//94
+            "Item Unit",//95
+            "WELCOME TO THE INVENTORY SYSTEM",//96
+            "RE-STOCK YOUR ITEMS !",//97
+            "You are now in the Menu:",//98
+            "You are now in the Submenu:",//99
+            "Please login again !",//100
+            "Please input items first !",//101
+            "Date Item Input",//102
+            "Date Damaged",//103
+            "Expiration Date",//104
+            "Expiration date successfully changed.",//105
+            "Expiration date successfully reset.",//106
+            "Expiration Date Not Updated",//107
+            "Date of Use",//108
+            "ITEMS LOW IN STOCK OR OUT OF STOCK",//109
+            "Thank you",//110
+            "no",//111
+            "no items input.",//112
+            "no items taken out.",//113
+            "no damaged items.",//114
+            "NO ITEMS LOW IN STOCK OR OUT OF STOCK",//115
+            "not found.",//116
+            "NO DAMAGED ITEMS REPORT.",//117
+            "not found.",//118
+            "Update Data",//119
+            "Update items data",//120
+            "Update Items Data to Master",//121
+            "yes"//122
+        }
+    };
+
+
     // Fungsi untuk menampilkan judul kategori
     public static String JenisJudul(int namaJudul) {
         switch (namaJudul) {
             case 0:
-                return "   DAFTAR IKAN LAUT ";
+                return messages[langIndex][13];
             case 1:
-                return "DAFTAR HIDANGAN LAUT";
+                return messages[langIndex][14];
             case 2:
-                return "DAFTAR BUMBU MASAKAN";
+                return messages[langIndex][15];
             case 3:
-                return "DAFTAR BAHAN MINUMAN";
+                return messages[langIndex][16];
             default:
                 return "";
         }
@@ -1024,8 +1341,7 @@ public class SistemInventaris {
 
     //Fungsi Mencari Data Barang
     static void cariDataBarang(){
-        Scanner sc = new Scanner(System.in);
-        System.out.print(ORANGE+"Masukkan kode atau barang yang ingin dicari: "+RESET);
+        System.out.print(ORANGE+messages[langIndex][74]+" "+RESET);
         String cariBarang = sc.nextLine();
         boolean ditemukan = false;
 
@@ -1044,21 +1360,21 @@ public class SistemInventaris {
                     System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
                     System.out.println(CYAN + "                                            =================================               " + RESET);
                     System.out.println("=========================================================================================================================");
-                    System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+                    System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][94]+"    |     "+messages[langIndex][128]+"   |");
                     System.out.println("=========================================================================================================================");
                     
                     if (KadaluarsaArray[i] != " ") {
                         selisihTanggal = LocalDate.parse(KadaluarsaArray[i], format);
                         long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
                         if (selisihTanggal.isAfter(hariIni)) {
-                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
+                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][130]);
                         } else if (selisihTanggal.isBefore(hariIni)) {
                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                         } else if (selisihTanggal == hariIni){
                             // Tanggal kadaluarsa hari ini
-                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                         }
                 } else {
                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-20s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i]," ");
@@ -1071,7 +1387,7 @@ public class SistemInventaris {
                 }
             }
         if (!ditemukan) {
-            System.out.println(RED + "Note: " + "Barang dengan kode atau nama " + cariBarang + " tidak ditemukan.\n" + RESET);
+            System.out.println(RED + "Note: "+messages[langIndex][4]+" " + cariBarang + " "+messages[langIndex][118]+".\n" + RESET);
         }
 
     }
@@ -1088,34 +1404,35 @@ public class SistemInventaris {
     
             for (int i = 0; i < kodeArray.length; i++) {
                 if (kodeArray[i].equalsIgnoreCase(searchTerm) || namaArray[i].equalsIgnoreCase(searchTerm)) {
-                    System.out.println("\n===== Update Data =====");
-                    System.out.println("Kode\t\t: " + kodeArray[i]);
-                    System.out.println("Nama Barang\t: " + namaArray[i]);
-                    System.out.println("Jumlah\t\t: " + JmlArray[i]);
-                    System.out.println("Satuan\t\t: " + SatuanArray[i]);
-                    System.out.println("Kadaluarsa\t: "+ KadaluarsaArray[i]);
+                    System.out.println("\n===== "+messages[langIndex][119]+" =====");
+                    System.out.println(messages[langIndex][47]+"\t\t: " + kodeArray[i]);
+                    System.out.println(messages[langIndex][88]+"\t: " + namaArray[i]);
+                    System.out.println(messages[langIndex][34]+"\t\t: " + JmlArray[i]);
+                    System.out.println(messages[langIndex][94]+"\t\t: " + SatuanArray[i]);
+                    System.out.println(messages[langIndex][42]+"\t: "+ KadaluarsaArray[i]);
                     sc.nextLine();
     
                     // Meminta pengguna untuk memasukkan informasi baru
                     switch (choice) {
                         case 1:
-                            System.out.print(ORANGE+"Masukkan kode baru: "+RESET);
+                            System.out.print(ORANGE+messages[langIndex][71]+" "+RESET);
                             kodeArray[i] = sc.nextLine();
                             break;
                         case 2:
-                            System.out.print(ORANGE+"Masukkan nama baru: "+RESET);
+                            System.out.print(ORANGE+messages[langIndex][76]+" "+RESET);
                             namaArray[i] = sc.nextLine();
                             break;
                         case 3:
-                            System.out.print(ORANGE+"Masukkan satuan baru: "+RESET);
+                            System.out.print(ORANGE+messages[langIndex][79]+" "+RESET);
+                            System.out.print(ORANGE+messages[langIndex][149]+" "+RESET);
                             SatuanArray[i] = sc.nextLine();
                             break;
                         case 4:
-                            System.out.print(ORANGE+"Masukkan tanggal kadaluarsa baru: "+RESET);
+                            System.out.print(ORANGE+messages[langIndex][80]+" "+RESET);
                             KadaluarsaArray[i] = sc.nextLine();
                             break;
                         default:
-                            System.out.println("Pilihan tidak valid.");
+                            System.out.println(messages[langIndex][92]);
                             return false;
                     }
     
@@ -1141,7 +1458,7 @@ public class SistemInventaris {
         } else if (kode.startsWith("M-")) {
             kategori = 3;
         } else {
-            System.out.println(RED+"Kategori tidak valid."+RESET);
+            System.out.println(RED+messages[langIndex][43]+RESET);
             return;
         }
 
@@ -1193,10 +1510,10 @@ public class SistemInventaris {
     public static void tampilkanLaporanBarangRusak(List<String[]> barangRusakList) {
         if (!barangRusakList.isEmpty()) {
             System.out.println(CYAN+"                                                    =======================================");
-            System.out.println("                                                    |       LAPORAN DATA BARANG RUSAK     |"      );
+            System.out.println("                                                    |       "+messages[langIndex][56]+"     |"      );
             System.out.println("                                                    ======================================="+RESET);
             System.out.println("============================================================================================================================================");
-            System.out.println("| KODE   |       Nama Barang       | Jumlah |     Satuan     |     Kadaluarsa    | Tanggal Rusak | Keterangan Kerusakan | Jumlah Kerusakan |");
+            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][34]+" |     "+messages[langIndex][94]+"     |     "+messages[langIndex][42]+"         | "+messages[langIndex][103]+" | "+messages[langIndex][46]+" | "+messages[langIndex][39]+" |");
             System.out.println("============================================================================================================================================");
 
                 for (String[] detailBarang : barangRusakList) {
@@ -1215,7 +1532,7 @@ public class SistemInventaris {
     //Fungsi untuk menampilkan stok data barang saat ini
     public static void TampilkanStockSekarang() {
         System.out.println(ORANGE +"                        =====================================================================" + RESET);
-        System.out.println(ORANGE +"                        |                     LAPORAN STOCK BARANG SEKARANG                 |"  + RESET);
+        System.out.println(ORANGE +"                        |                     "+messages[langIndex][60]+"                 |"  + RESET);
         System.out.println(ORANGE +"                        =====================================================================" + RESET);
         System.out.println();
         
@@ -1232,21 +1549,21 @@ public class SistemInventaris {
             System.out.println(CYAN + "                                            |      " + kategoriJudul +"     |" + RESET);
             System.out.println(CYAN + "                                            =================================               " + RESET);
             System.out.println("=========================================================================================================================");
-            System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][42]+"    |     "+messages[langIndex][128]+"   |");
             System.out.println("=========================================================================================================================");
             for (int i =0; i<kodeArray.length; i++) {
                 if (KadaluarsaArray[i] != " ") {
                     selisihTanggal = LocalDate.parse(KadaluarsaArray[i], format);
                     long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
                     if (selisihTanggal.isAfter(hariIni)) {
-                        System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
+                        System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][130]);
                     } else if (selisihTanggal.isBefore(hariIni)) {
                         // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                     } else if (selisihTanggal == hariIni){
                         // Tanggal kadaluarsa hari ini
-                        System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                        System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                     }
                 } else {
                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-20s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i]," ");
@@ -1269,15 +1586,15 @@ public class SistemInventaris {
     boolean konfirmasiBarangSedikit = false;
     
     if (!konfirmasiBarangSedikit) {
-        System.out.println(RED + "NOTE :  TERDAPAT STOK BARANG SEDIKIT ATAU HABIS" + RESET);
-        System.out.println(RED + "SEGERA RE-STOCK BARANG-BARANG !" + RESET);
+        System.out.println(RED + "NOTE :  "+messages[langIndex][109] + RESET);
+        System.out.println(RED + messages[langIndex][97] + RESET);
         System.out.println();
         System.out.println(BLUE + "                 ==========================================            " + RESET);
-        System.out.println(BLUE + "                 | LAPORAN DATA BARANG SEDIKIT ATAU HABIS |            " + RESET);
+        System.out.println(BLUE + "                 | "+messages[langIndex][58]+" |            " + RESET);
         System.out.println(BLUE + "                 ==========================================            " + RESET);
         System.out.println();
         System.out.println("=========================================================================================================================");
-        System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+        System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][42]+"    |     "+messages[langIndex][128]+"   |");
         System.out.println("=========================================================================================================================");
                                     
         for (int kategori = 0; kategori < 4; kategori++) {
@@ -1295,14 +1612,14 @@ public class SistemInventaris {
                             selisihTanggal = LocalDate.parse(KadaluarsaArray[i], format);
                             long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
                                 if (selisihTanggal.isAfter(hariIni)) {
-                                    System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
+                                    System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][130] );
                                 } else if (selisihTanggal.isBefore(hariIni)) {
                                     // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                            kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                            kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                                 } else if (selisihTanggal == hariIni){
                                     // Tanggal kadaluarsa hari ini
-                                    System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                                    System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                 }
                         } else {
                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-20s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i]," ");
@@ -1314,8 +1631,8 @@ public class SistemInventaris {
             System.out.println("=========================================================================================================================");
             System.out.println();
         } else {
-            System.out.println(GREEN + "               TIDAK ADA BARANG HABIS ATAU TINGGAL SEDIKIT            " + RESET);
-            System.out.println(GREEN + "                 CEK KEMBALI DATA BARANG NANTI ATAU BESOK           " + RESET);
+            System.out.println(GREEN + "               "+messages[langIndex][115]+"            " + RESET);
+            System.out.println(GREEN + "                 "+messages[langIndex][12]+"           " + RESET);
         }
             
             
@@ -1325,10 +1642,10 @@ public class SistemInventaris {
     public static void TampilkanBarangMasuk(List<String[]> barangMasukList) {
         if (!barangMasukList.isEmpty()) {
             System.out.println("                           =======================================");
-            System.out.println("                                    LAPORAN DATA BARANG MASUK"      );
+            System.out.println("                                    "+messages[langIndex][53]      );
             System.out.println("                           =======================================");
             System.out.println("========================================================================================================================");
-            System.out.println("| KODE   |       Nama Barang       | Jumlah Sebelum | Jumlah Saat ini |  Satuan  | Kadaluarsa |     Tanggal Input      |");
+            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][41]+" | "+messages[langIndex][40]+" |  "+messages[langIndex][94]+"  | "+messages[langIndex][42]+" |     "+messages[langIndex][102]+"      |");
             System.out.println("========================================================================================================================");
 
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -1339,8 +1656,8 @@ public class SistemInventaris {
                 System.out.println("========================================================================================================================");
                     
         } else {
-                System.out.println(RED +  "Tidak ada barang yang di input." + RESET);
-                System.out.println(RED + "Note : Silahkan input barang terlebih dahulu!" + RESET);
+            System.out.println(RED +  messages[langIndex][112] + RESET);
+            System.out.println(RED + "Note : "+messages[langIndex][101] + RESET);
             }
     }
 
@@ -1349,11 +1666,11 @@ public class SistemInventaris {
         if (!barangKeluarList.isEmpty()) {
             
             System.out.println("                           =======================================");
-            System.out.println("                                   LAPORAN DATA BARANG KELUAR"    );
+            System.out.println("                                   "+messages[langIndex][54]    );
             System.out.println("                           =======================================");
             System.out.println();
             System.out.println("========================================================================================================================");
-            System.out.println("| KODE   |       Nama Barang       | Jumlah Sebelum | Jumlah Saat ini |  Satuan  | Kadaluarsa |     Tanggal Input      |");
+            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][41]+" | "+messages[langIndex][40]+" |  "+messages[langIndex][94]+"  | "+messages[langIndex][42]+" |     "+messages[langIndex][102]+"      |");
             System.out.println("========================================================================================================================");
 
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -1364,8 +1681,8 @@ public class SistemInventaris {
                 System.out.println("========================================================================================================================");
                     
         } else {
-                System.out.println(RED + "Tidak ada barang yang di input." + RESET);
-                System.out.println(RED + "Note : Silahkan input barang terlebih dahulu!" + RESET);
+                System.out.println(RED + messages[langIndex][112] + RESET);
+                System.out.println(RED + "Note : "+messages[langIndex][101] + RESET);
             }
     }
 
@@ -1373,10 +1690,10 @@ public class SistemInventaris {
     public static void LaporanBarangPalingBanyakKeluar() {
         if (!barangKeluarList.isEmpty()) {
             System.out.println("                           ============================================");
-            System.out.println("                           | LAPORAN DATA BARANG PALING BANYAK KELUAR |"    );
+            System.out.println("                           | "+messages[langIndex][54]+" |"    );
             System.out.println("                           ============================================");
             System.out.println("========================================================================================================================");
-            System.out.println("| KODE   |       Nama Barang       | Jumlah Sebelum | Jumlah Saat ini |  Satuan  | Kadaluarsa |     Tanggal Input      |");
+            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][41]+" | "+messages[langIndex][40]+" |  "+messages[langIndex][94]+"  | "+messages[langIndex][42]+" |     "+messages[langIndex][102]+"      |");
             System.out.println("========================================================================================================================");
 
             int maxKeluar = 0;
@@ -1399,7 +1716,7 @@ public class SistemInventaris {
             
             System.out.println("========================================================================================================================");
         } else {
-            System.out.println(RED + "Tidak ada barang yang dikeluarkan.\n" + RESET);
+            System.out.println(RED + messages[langIndex][113]+"\n" + RESET);
         }
         
     }
@@ -1408,10 +1725,10 @@ public class SistemInventaris {
     public static void historyPenggunaanSistem (List<String[]> historyPenggunaan) {
         if (!historyPenggunaan.isEmpty()) {
             System.out.println(CYAN +"                           =======================================" + RESET);
-            System.out.println(CYAN +"                           |       HISTORY PENGGUNAAN SISTEM     |" + RESET);
+            System.out.println(CYAN +"                           |       "+messages[langIndex][24]+"     |" + RESET);
             System.out.println(CYAN +"                           =======================================" + RESET);
             System.out.println("===============================================================================================");
-            System.out.println("| Role  |                       Kegiatan                               | Tanggal Penggunaan   |");
+            System.out.println("| Role  |                       "+messages[langIndex][44]+"                               | "+messages[langIndex][108]+"   |");
             System.out.println("===============================================================================================");
             
             for (String[] history : historyPenggunaan) {
@@ -1422,7 +1739,7 @@ public class SistemInventaris {
             System.out.println("===============================================================================================");
 
         } else {
-            System.out.println(GREEN + "Note : Belum ada history penggunaan sistem ini.\n" + RESET);
+            System.out.println(GREEN + "Note : "+messages[langIndex][11]+"\n" + RESET);
         }
     }
 
@@ -1434,14 +1751,14 @@ public class SistemInventaris {
 
     //Fungsi untuk menginput data barang ke-master
     static void inputDataMaster() {
-        System.out.print("Masukkan jenis barang baru yang ingin Anda masukkan: ");
+        System.out.print(messages[langIndex][64]+" ");
         int barangbaru = sc.nextInt();
 
         for (int j =0; j <barangbaru; j++) {
             boolean ditemukan = true;
 
             while (ditemukan) {
-                System.out.print(ORANGE+"Masukkan kode baru: "+RESET);
+                System.out.print(ORANGE+messages[langIndex][71]+" "+RESET);
                 String newKode = sc.next();
                 ditemukan = false;
 
@@ -1457,7 +1774,7 @@ public class SistemInventaris {
                         if (kodeArray[i].equalsIgnoreCase(newKode)) {
 
                             System.out.println("=========================================================================================================================");
-                            System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+                            System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][94]+"    |     "+messages[langIndex][128]+"   |");
                             System.out.println("=========================================================================================================================");
                                             
                             if (KadaluarsaArray[i] != " ") {
@@ -1465,14 +1782,14 @@ public class SistemInventaris {
                                 long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
 
                                     if (selisihTanggal.isAfter(hariIni)) {
-                                        System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
+                                        System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][130]);
                                     } else if (selisihTanggal.isBefore(hariIni)) {
                                         // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                         System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                                kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                                kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                                     } else if (selisihTanggal == hariIni){
                                         // Tanggal kadaluarsa hari ini
-                                        System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                                        System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                     }
 
                             } else {
@@ -1480,7 +1797,7 @@ public class SistemInventaris {
                             }
                                 System.out.println("=========================================================================================================================");
                                 System.out.println();
-                                System.out.println(RED + "CATATAN: MOHON MAAF, KODE SUDAH TERSEDIA, MOHON MASUKKAN ULANG KODE." + RESET);
+                                System.out.println(RED + "NOTE: "+messages[langIndex][150] + RESET);
                                 ditemukan = true;
                         }
 
@@ -1489,13 +1806,13 @@ public class SistemInventaris {
 
                 if (!ditemukan) {
                     if (!newKode.matches("^[IHBM]-\\d{3}$")) {
-                        System.out.println("Mohon maaf, kode yang Anda Masukkan tidak valid.");
+                        System.out.println(messages[langIndex][151]);
                         System.out.println();
-                        System.out.println("============== FORMAT KODE ==============");
-                        System.out.println("Ikan Laut      = I-(3 Angka)");
-                        System.out.println("Hewan Laut     = H-(3 Angka)");
-                        System.out.println("Bumbu Dapur    = B-(3 Angka)");
-                        System.out.println("Minuman        = M-(3 Angka)");
+                        System.out.println("============== "+messages[langIndex][152]+" ==============");
+                        System.out.println("Ikan Laut(marine fish)      = I-(3 Angka)");
+                        System.out.println("Hewan Laut(marine animals)     = H-(3 Angka)");
+                        System.out.println("Bumbu Dapur(herbs)    = B-(3 Angka)");
+                        System.out.println("Minuman(beverages)        = M-(3 Angka)");
                         System.out.println();
                         ditemukan = true;
                     }
@@ -1505,7 +1822,7 @@ public class SistemInventaris {
                     boolean ditemukan2 = true;
 
                     while (ditemukan2) {
-                        System.out.print(ORANGE+"Masukkan nama baru: "+RESET);
+                        System.out.print(ORANGE+messages[langIndex][76]+" "+RESET);
                         String newNama = sc.next();
                         ditemukan2 = false;
 
@@ -1519,7 +1836,7 @@ public class SistemInventaris {
                             for (int i = 0; i < kodeArray.length; i++) {
                                 if (namaArray[i].equalsIgnoreCase(newNama)) {
                                     System.out.println("=========================================================================================================================");
-                                    System.out.println("| KODE   |       Nama Barang       | Jumlah Barang |     Satuan Barang     |     Kadaluarsa    |     Kadaluarsa dalam   |");
+                                    System.out.println("| "+messages[langIndex][48]+"   |       "+messages[langIndex][88]+"       | "+messages[langIndex][35]+" |     "+messages[langIndex][95]+"     |     "+messages[langIndex][94]+"    |     "+messages[langIndex][128]+"   |");
                                     System.out.println("=========================================================================================================================");
                                                             
                                     if (KadaluarsaArray[i] != " ") {
@@ -1527,14 +1844,14 @@ public class SistemInventaris {
                                     long selisihHari = hitungSelisihHari(selisihTanggal, hariIni);
 
                                         if (selisihTanggal.isAfter(hariIni)) {
-                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " hari");
+                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |        %-10s      |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], selisihHari + " "+messages[langIndex][130]);
                                         } else if (selisihTanggal.isBefore(hariIni)) {
                                             // Kadaluarsa kemarin, tampilkan pesan "sudah kadaluarsa" dengan warna merah
                                             System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |%-23s |\n",
-                                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + "Sudah Kadaluarsa " + selisihHari + " hari" + RESET);
+                                                    kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], RED + messages[langIndex][129]+" " + selisihHari + " "+messages[langIndex][130] + RESET);
                                         } else if (selisihTanggal == hariIni){
                                             // Tanggal kadaluarsa hari ini
-                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " Kadaluarsa Hari Ini" + RESET);
+                                            System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-23s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i], GREEN + " "+messages[langIndex][131] + RESET);
                                         }
                                 } else {
                                     System.out.printf("| %-6s | %-23s |       %-8s| %-21s |     %-10s    |  %-20s  |\n", kodeArray[i], namaArray[i], JmlArray[i], SatuanArray[i], KadaluarsaArray[i]," ");
@@ -1547,24 +1864,24 @@ public class SistemInventaris {
                             }
 
                             if (ditemukan2) {
-                                System.out.println(RED + "CATATAN: MOHON MAAF, NAMA SUDAH TERSEDIA, MOHON MASUKKAN ULANG NAMA." + RESET);
+                                System.out.println(RED + "NOTE: "+messages[langIndex][153] + RESET);
                             }
 
 
                             if (!ditemukan2) {
                                 sc.nextLine();
-                                System.out.print(ORANGE+"Masukkan jumlah baru: "+RESET);
+                                System.out.print(ORANGE+messages[langIndex][68]+" "+RESET);
                                 String newJumlah = sc.next();
-                                System.out.print(ORANGE+"Masukkan satuan baru: "+RESET);
+                                System.out.print(ORANGE+messages[langIndex][79]+" "+RESET);
                                 String newSatuan = sc.next();
-                                System.out.print(ORANGE+"Masukkan Tanggal Kadaluarsa (dd-MM-yyyy): "+RESET);
+                                System.out.print(ORANGE+messages[langIndex][81]+" "+RESET);
                                 String tanggalKadaluarsa = sc.next();
 
                                 DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                                 LocalDate tanggal = LocalDate.from(formatTanggal.parse(tanggalKadaluarsa));
 
                                 System.out.println();
-                                System.out.println(GREEN + "Data barang baru telah disimpan!" + RESET);
+                                System.out.println(GREEN + messages[langIndex][17] + RESET);
                                 System.out.println(GREEN + "================================" + RESET);
                                 System.out.println();
 
